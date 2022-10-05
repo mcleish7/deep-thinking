@@ -132,6 +132,11 @@ def load_model_from_checkpoint(problem, model_args, device):
     if model_path is not None:
         logging.info(f"Loading model from checkpoint {model_path}...")
         state_dict = torch.load(model_path, map_location=device)
+
+        #added using this link
+        #https://discuss.pytorch.org/t/solved-keyerror-unexpected-key-module-encoder-embedding-weight-in-state-dict/1686
+        net = torch.nn.DataParallel(net)
+
         net.load_state_dict(state_dict["net"])
         epoch = state_dict["epoch"] + 1
         optimizer = state_dict["optimizer"]
