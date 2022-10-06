@@ -13,6 +13,7 @@ import argparse
 import copy
 import glob
 import json
+from tabulate import tabulate
 
 import pandas as pd
 
