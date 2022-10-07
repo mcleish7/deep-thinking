@@ -77,6 +77,8 @@ def main(cfg: DictConfig):
     best_so_far = False
 
     for epoch in range(start_epoch, cfg.problem.hyp.epochs):
+        torch.cuda.empty_cache()
+        #torch.cuda.garbage_collection_threshold = 0.8
         loss, acc = dt.train(net, loaders, cfg.problem.hyp.train_mode, train_setup, device)
         val_acc = dt.test(net, [loaders["val"]], cfg.problem.hyp.test_mode, [cfg.problem.model.max_iters],
                           cfg.problem.name, device)[0][cfg.problem.model.max_iters]
