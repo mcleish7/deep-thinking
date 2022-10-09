@@ -1,0 +1,173 @@
+[10/09/2022 10:22:33 INFO]: 
+_________________________________________________
+
+[10/09/2022 10:22:33 INFO]: train_model.py main() running.
+[10/09/2022 10:22:33 INFO]: problem:
+  hyp:
+    alpha: 1
+    clip: 1
+    epochs: 150
+    lr: 0.001
+    lr_decay: step
+    lr_factor: 0.1
+    lr_schedule:
+    - 60
+    - 100
+    lr_throttle: false
+    optimizer: adam
+    save_period: -1
+    test_batch_size: 500
+    test_mode: default
+    train_batch_size: 100
+    train_mode: progressive
+    val_period: 20
+    warmup_period: 10
+  model:
+    model: dt_net_recall_1d
+    model_path: null
+    width: 400
+    max_iters: 30
+    test_iterations:
+      low: 30
+      high: 40
+  name: prefix_sums
+  test_data: 512
+  train_data: 32
+train_log: train_log
+name: prefix_sums_ablation
+run_id: financed-Carolynn
+
+2022-10-09 10:22:33.510729: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-10-09 10:22:35.489988: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2022-10-09 10:22:38.222818: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /local/java/cuda-11.6.0/lib64/:/local/java/cudnn-linux-x86_64-8.5.0.96_cuda11-archive/lib64/
+2022-10-09 10:22:38.223514: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /local/java/cuda-11.6.0/lib64/:/local/java/cudnn-linux-x86_64-8.5.0.96_cuda11-archive/lib64/
+2022-10-09 10:22:38.223524: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+Files already downloaded and verified
+Loading data with 32 bits.
+Files already downloaded and verified
+Loading data with 512 bits.
+[10/09/2022 10:22:50 INFO]: This dt_net_recall_1d has 3.124 million parameters.
+[10/09/2022 10:22:50 INFO]: Training will start at epoch 0.
+[10/09/2022 10:22:50 INFO]: ==> Starting training for 150 epochs...
+  0%|          | 0/80 [00:00<?, ?it/s]                                      Traceback (most recent call last):
+  File "/dcs/20/u2004277/Documents/deep-thinking/train_model.py", line 157, in <module>
+    main()
+  File "/dcs/20/u2004277/.local/lib/python3.9/site-packages/hydra/main.py", line 48, in decorated_main
+    _run_hydra(
+  File "/dcs/20/u2004277/.local/lib/python3.9/site-packages/hydra/_internal/utils.py", line 377, in _run_hydra
+    run_and_report(
+  File "/dcs/20/u2004277/.local/lib/python3.9/site-packages/hydra/_internal/utils.py", line 211, in run_and_report
+    return func()
+  File "/dcs/20/u2004277/.local/lib/python3.9/site-packages/hydra/_internal/utils.py", line 378, in <lambda>
+    lambda: hydra.run(
+  File "/dcs/20/u2004277/.local/lib/python3.9/site-packages/hydra/_internal/hydra.py", line 98, in run
+    ret = run_job(
+  File "/dcs/20/u2004277/.local/lib/python3.9/site-packages/hydra/core/utils.py", line 160, in run_job
+    ret.return_value = task_function(task_cfg)
+  File "/dcs/20/u2004277/Documents/deep-thinking/train_model.py", line 82, in main
+    loss, acc = dt.train(net, loaders, cfg.problem.hyp.train_mode, train_setup, device)
+  File "/dcs/20/u2004277/Documents/deep-thinking/deepthinking/utils/training.py", line 61, in train
+    train_loss, acc = train_progressive(net, loaders, train_setup, device)
+  File "/dcs/20/u2004277/Documents/deep-thinking/deepthinking/utils/training.py", line 105, in train_progressive
+    outputs, k = get_output_for_prog_loss(inputs, max_iters, net)
+  File "/dcs/20/u2004277/Documents/deep-thinking/deepthinking/utils/training.py", line 50, in get_output_for_prog_loss
+    _, interim_thought = net(inputs, iters_to_do=n)
+  File "/dcs/20/u2004277/.local/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1102, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/dcs/20/u2004277/.local/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py", line 166, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File "/dcs/20/u2004277/.local/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1102, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/dcs/20/u2004277/Documents/deep-thinking/deepthinking/models/dt_net_1d.py", line 74, in forward
+    all_outputs = torch.zeros((x.size(0), iters_to_do, 2, x.size(2))).to(x.device)
+KeyboardInterrupt
+[10/09/2022 10:23:09 INFO]: 
+_________________________________________________
+
+[10/09/2022 10:23:09 INFO]: train_model.py main() running.
+[10/09/2022 10:23:09 INFO]: problem:
+  hyp:
+    alpha: 1
+    clip: 1
+    epochs: 150
+    lr: 0.001
+    lr_decay: step
+    lr_factor: 0.1
+    lr_schedule:
+    - 60
+    - 100
+    lr_throttle: false
+    optimizer: adam
+    save_period: -1
+    test_batch_size: 500
+    test_mode: default
+    train_batch_size: 100
+    train_mode: progressive
+    val_period: 20
+    warmup_period: 10
+  model:
+    model: dt_net_recall_1d
+    model_path: null
+    width: 400
+    max_iters: 30
+    test_iterations:
+      low: 30
+      high: 40
+  name: prefix_sums
+  test_data: 512
+  train_data: 32
+train_log: train_log
+name: prefix_sums_ablation
+run_id: dickey-Fareed
+
+2022-10-09 10:23:09.561955: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-10-09 10:23:09.681815: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+Traceback (most recent call last):
+  File "/dcs/20/u2004277/.local/lib/python3.9/site-packages/tensorboard/compat/__init__.py", line 42, in tf
+    from tensorboard.compat import notf  # noqa: F401
+ImportError: cannot import name 'notf' from 'tensorboard.compat' (/dcs/20/u2004277/.local/lib/python3.9/site-packages/tensorboard/compat/__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/dcs/20/u2004277/Documents/deep-thinking/train_model.py", line 157, in <module>
+    main()
+  File "/dcs/20/u2004277/.local/lib/python3.9/site-packages/hydra/main.py", line 48, in decorated_main
+    _run_hydra(
+  File "/dcs/20/u2004277/.local/lib/python3.9/site-packages/hydra/_internal/utils.py", line 377, in _run_hydra
+    run_and_report(
+  File "/dcs/20/u2004277/.local/lib/python3.9/site-packages/hydra/_internal/utils.py", line 211, in run_and_report
+    return func()
+  File "/dcs/20/u2004277/.local/lib/python3.9/site-packages/hydra/_internal/utils.py", line 378, in <lambda>
+    lambda: hydra.run(
+  File "/dcs/20/u2004277/.local/lib/python3.9/site-packages/hydra/_internal/hydra.py", line 98, in run
+    ret = run_job(
+  File "/dcs/20/u2004277/.local/lib/python3.9/site-packages/hydra/core/utils.py", line 160, in run_job
+    ret.return_value = task_function(task_cfg)
+  File "/dcs/20/u2004277/Documents/deep-thinking/train_model.py", line 48, in main
+    writer = SummaryWriter(log_dir=f"tensorboard-{cfg.problem.model.model}-{cfg.problem.hyp.alpha}")
+  File "/dcs/20/u2004277/.local/lib/python3.9/site-packages/torch/utils/tensorboard/writer.py", line 220, in __init__
+    self._get_file_writer()
+  File "/dcs/20/u2004277/.local/lib/python3.9/site-packages/torch/utils/tensorboard/writer.py", line 250, in _get_file_writer
+    self.file_writer = FileWriter(self.log_dir, self.max_queue,
+  File "/dcs/20/u2004277/.local/lib/python3.9/site-packages/torch/utils/tensorboard/writer.py", line 60, in __init__
+    self.event_writer = EventFileWriter(
+  File "/dcs/20/u2004277/.local/lib/python3.9/site-packages/tensorboard/summary/writer/event_file_writer.py", line 72, in __init__
+    tf.io.gfile.makedirs(logdir)
+  File "/dcs/20/u2004277/.local/lib/python3.9/site-packages/tensorboard/lazy.py", line 65, in __getattr__
+    return getattr(load_once(self), attr_name)
+  File "/dcs/20/u2004277/.local/lib/python3.9/site-packages/tensorboard/lazy.py", line 97, in wrapper
+    cache[arg] = f(arg)
+  File "/dcs/20/u2004277/.local/lib/python3.9/site-packages/tensorboard/lazy.py", line 50, in load_once
+    module = load_fn()
+  File "/dcs/20/u2004277/.local/lib/python3.9/site-packages/tensorboard/compat/__init__.py", line 45, in tf
+    import tensorflow
+  File "/dcs/20/u2004277/.local/lib/python3.9/site-packages/tensorflow/__init__.py", line 37, in <module>
+    from tensorflow.python.tools import module_util as _module_util
+  File "/dcs/20/u2004277/.local/lib/python3.9/site-packages/tensorflow/python/__init__.py", line 36, in <module>
+    from tensorflow.python import pywrap_tensorflow as _pywrap_tensorflow
+  File "/dcs/20/u2004277/.local/lib/python3.9/site-packages/tensorflow/python/pywrap_tensorflow.py", line 62, in <module>
+    from tensorflow.python._pywrap_tensorflow_internal import *
+KeyboardInterrupt
