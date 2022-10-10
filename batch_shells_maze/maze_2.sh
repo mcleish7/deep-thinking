@@ -11,4 +11,4 @@
 
 source /etc/profile.d/modules.sh
 module load CUDA
-srun python3.9 ~/Documents/deep-thinking/train_model.py problem.hyp.alpha=0.01 problem/model=dt_net_2d problem=mazes name=mazes_ablation
+srun python3.9 /dcs/large/u2004277/deep-thinking/train_model.py problem.hyp.alpha=0.01 problem/model=dt_net_2d problem=mazes name=mazes_ablation

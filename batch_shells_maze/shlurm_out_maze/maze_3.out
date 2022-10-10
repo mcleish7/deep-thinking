@@ -1,0 +1,255 @@
+[10/10/2022 11:52:51 INFO]: 
+_________________________________________________
+
+[10/10/2022 11:52:51 INFO]: train_model.py main() running.
+[10/10/2022 11:52:51 INFO]: problem:
+  hyp:
+    alpha: 0.5
+    clip: null
+    epochs: 50
+    lr: 0.001
+    lr_decay: step
+    lr_factor: 0.1
+    lr_schedule:
+    - 100
+    lr_throttle: true
+    optimizer: adam
+    save_period: -1
+    test_batch_size: 25
+    test_mode: default
+    train_batch_size: 50
+    train_mode: progressive
+    val_period: 20
+    warmup_period: 10
+  model:
+    model: dt_net_2d
+    model_path: null
+    width: 128
+    max_iters: 30
+    test_iterations:
+      low: 30
+      high: 40
+  name: mazes
+  test_data: 33
+  train_data: 9
+train_log: train_log
+name: mazes_ablation
+run_id: unraised-Lucrecia
+
+Files already downloaded and verified
+Loading mazes of size 9 x 9.
+Files already downloaded and verified
+Loading mazes of size 33 x 33.
+[10/10/2022 11:53:26 INFO]: This dt_net_2d has 0.633 million parameters.
+[10/10/2022 11:53:26 INFO]: Training will start at epoch 0.
+[10/10/2022 11:53:26 INFO]: ==> Starting training for 50 epochs...
+[10/10/2022 11:58:04 INFO]: Training loss at epoch 0: 0.6958556745946407
+[10/10/2022 11:58:04 INFO]: Training accuracy at epoch 0: 0.0
+[10/10/2022 11:58:04 INFO]: Val accuracy at epoch 0: 0.0
+[10/10/2022 11:58:04 INFO]: Saving model to: model_best.pth
+[10/10/2022 12:02:46 INFO]: Training loss at epoch 1: 0.6124232219159603
+[10/10/2022 12:02:46 INFO]: Training accuracy at epoch 1: 0.0
+[10/10/2022 12:02:46 INFO]: Val accuracy at epoch 1: 0.0
+[10/10/2022 12:02:46 INFO]: Saving model to: model_.pth
+[10/10/2022 12:07:29 INFO]: Training loss at epoch 2: 0.5105299447476864
+[10/10/2022 12:07:29 INFO]: Training accuracy at epoch 2: 0.0
+[10/10/2022 12:07:29 INFO]: Val accuracy at epoch 2: 0.0
+[10/10/2022 12:07:29 INFO]: Saving model to: model_.pth
+[10/10/2022 12:12:09 INFO]: Training loss at epoch 3: 0.46620819374918937
+[10/10/2022 12:12:09 INFO]: Training accuracy at epoch 3: 0.015
+[10/10/2022 12:12:09 INFO]: Val accuracy at epoch 3: 0.019999999552965164
+[10/10/2022 12:12:09 INFO]: Saving model to: model_best.pth
+[10/10/2022 12:16:51 INFO]: Training loss at epoch 4: 0.43198210652917624
+[10/10/2022 12:16:51 INFO]: Training accuracy at epoch 4: 0.06
+[10/10/2022 12:16:51 INFO]: Val accuracy at epoch 4: 0.18000000715255737
+[10/10/2022 12:16:51 INFO]: Saving model to: model_best.pth
+[10/10/2022 12:21:34 INFO]: Training loss at epoch 5: 0.38866192795336246
+[10/10/2022 12:21:34 INFO]: Training accuracy at epoch 5: 0.3225
+[10/10/2022 12:21:34 INFO]: Val accuracy at epoch 5: 0.6000000238418579
+[10/10/2022 12:21:34 INFO]: Saving model to: model_best.pth
+[10/10/2022 12:26:19 INFO]: Training loss at epoch 6: 0.36027863789349795
+[10/10/2022 12:26:19 INFO]: Training accuracy at epoch 6: 1.1125
+[10/10/2022 12:26:19 INFO]: Val accuracy at epoch 6: 2.1500000953674316
+[10/10/2022 12:26:19 INFO]: Saving model to: model_best.pth
+[10/10/2022 12:31:02 INFO]: Training loss at epoch 7: 0.3128193195722997
+[10/10/2022 12:31:02 INFO]: Training accuracy at epoch 7: 3.145
+[10/10/2022 12:31:02 INFO]: Val accuracy at epoch 7: 4.570000171661377
+[10/10/2022 12:31:02 INFO]: Saving model to: model_best.pth
+[10/10/2022 12:35:46 INFO]: Training loss at epoch 8: 0.26772894475609066
+[10/10/2022 12:35:46 INFO]: Training accuracy at epoch 8: 8.13
+[10/10/2022 12:35:46 INFO]: Val accuracy at epoch 8: 11.619999885559082
+[10/10/2022 12:35:46 INFO]: Saving model to: model_best.pth
+[10/10/2022 12:40:30 INFO]: Training loss at epoch 9: 0.23669966984540225
+[10/10/2022 12:40:30 INFO]: Training accuracy at epoch 9: 15.3325
+[10/10/2022 12:40:30 INFO]: Val accuracy at epoch 9: 23.139999389648438
+[10/10/2022 12:40:30 INFO]: Saving model to: model_best.pth
+[10/10/2022 12:45:13 INFO]: Training loss at epoch 10: 0.16776435176376253
+[10/10/2022 12:45:13 INFO]: Training accuracy at epoch 10: 37.4975
+[10/10/2022 12:45:13 INFO]: Val accuracy at epoch 10: 56.59000015258789
+[10/10/2022 12:45:13 INFO]: Saving model to: model_best.pth
+[10/10/2022 12:49:57 INFO]: Training loss at epoch 11: 0.11079842076520435
+[10/10/2022 12:49:57 INFO]: Training accuracy at epoch 11: 60.5
+[10/10/2022 12:49:57 INFO]: Val accuracy at epoch 11: 59.72999954223633
+[10/10/2022 12:49:57 INFO]: Saving model to: model_best.pth
+[10/10/2022 12:54:42 INFO]: Training loss at epoch 12: 0.08054564692429267
+[10/10/2022 12:54:42 INFO]: Training accuracy at epoch 12: 76.0075
+[10/10/2022 12:54:42 INFO]: Val accuracy at epoch 12: 85.93000030517578
+[10/10/2022 12:54:42 INFO]: Saving model to: model_best.pth
+[10/10/2022 12:59:25 INFO]: Training loss at epoch 13: 0.06575136360130272
+[10/10/2022 12:59:25 INFO]: Training accuracy at epoch 13: 85.0575
+[10/10/2022 12:59:25 INFO]: Val accuracy at epoch 13: 88.05999755859375
+[10/10/2022 12:59:25 INFO]: Saving model to: model_best.pth
+[10/10/2022 13:04:08 INFO]: Training loss at epoch 14: 0.05536194591411913
+[10/10/2022 13:04:08 INFO]: Training accuracy at epoch 14: 87.855
+[10/10/2022 13:04:08 INFO]: Val accuracy at epoch 14: 92.91999816894531
+[10/10/2022 13:04:08 INFO]: Saving model to: model_best.pth
+[10/10/2022 13:08:50 INFO]: Training loss at epoch 15: 0.045224653575161256
+[10/10/2022 13:08:50 INFO]: Training accuracy at epoch 15: 92.585
+[10/10/2022 13:08:50 INFO]: Val accuracy at epoch 15: 96.54000091552734
+[10/10/2022 13:08:50 INFO]: Saving model to: model_best.pth
+[10/10/2022 13:13:35 INFO]: Training loss at epoch 16: 0.039277787891391254
+[10/10/2022 13:13:35 INFO]: Training accuracy at epoch 16: 94.3825
+[10/10/2022 13:13:35 INFO]: Val accuracy at epoch 16: 98.30000305175781
+[10/10/2022 13:13:35 INFO]: Saving model to: model_best.pth
+[10/10/2022 13:18:18 INFO]: Training loss at epoch 17: 0.04864298561904668
+[10/10/2022 13:18:18 INFO]: Training accuracy at epoch 17: 91.0625
+[10/10/2022 13:18:18 INFO]: Val accuracy at epoch 17: 98.44999694824219
+[10/10/2022 13:18:18 INFO]: Saving model to: model_best.pth
+[10/10/2022 13:23:02 INFO]: Training loss at epoch 18: 0.03599701053313248
+[10/10/2022 13:23:02 INFO]: Training accuracy at epoch 18: 96.215
+[10/10/2022 13:23:02 INFO]: Val accuracy at epoch 18: 99.47000122070312
+[10/10/2022 13:23:02 INFO]: Saving model to: model_best.pth
+[10/10/2022 13:27:45 INFO]: Training loss at epoch 19: 0.02678252944100862
+[10/10/2022 13:27:45 INFO]: Training accuracy at epoch 19: 97.715
+[10/10/2022 13:27:45 INFO]: Val accuracy at epoch 19: 96.27999877929688
+[10/10/2022 13:32:54 INFO]: Training accuracy: {30: 96.13500213623047, 31: 96.23500061035156, 32: 96.0425033569336, 33: 95.75499725341797, 34: 95.34750366210938, 35: 94.625, 36: 93.43499755859375, 37: 92.01499938964844, 38: 90.28250122070312, 39: 88.00749969482422, 40: 85.35749816894531}
+[10/10/2022 13:32:54 INFO]: Val accuracy: {30: 96.27999877929688, 31: 96.33000183105469, 32: 96.12000274658203, 33: 95.87000274658203, 34: 95.23999786376953, 35: 94.41999816894531, 36: 93.43000030517578, 37: 91.98999786376953, 38: 90.36000061035156, 39: 88.25, 40: 85.44000244140625}
+[10/10/2022 13:32:54 INFO]: Test accuracy (hard data): {30: 0.0, 31: 0.0, 32: 0.0, 33: 0.0, 34: 0.0, 35: 0.0, 36: 0.0, 37: 0.0, 38: 0.0, 39: 0.0, 40: 0.0}
+[10/10/2022 13:32:54 INFO]: Saving model to: model_.pth
+[10/10/2022 13:37:36 INFO]: Training loss at epoch 20: 0.03443753033903054
+[10/10/2022 13:37:36 INFO]: Training accuracy at epoch 20: 95.3475
+[10/10/2022 13:37:36 INFO]: Val accuracy at epoch 20: 98.7300033569336
+[10/10/2022 13:37:36 INFO]: Saving model to: model_.pth
+[10/10/2022 13:42:22 INFO]: Training loss at epoch 21: 0.026038817405444458
+[10/10/2022 13:42:22 INFO]: Training accuracy at epoch 21: 97.7475
+[10/10/2022 13:42:22 INFO]: Val accuracy at epoch 21: 99.63999938964844
+[10/10/2022 13:42:22 INFO]: Saving model to: model_best.pth
+[10/10/2022 13:47:06 INFO]: Training loss at epoch 22: 0.030613071968007603
+[10/10/2022 13:47:06 INFO]: Training accuracy at epoch 22: 96.3025
+[10/10/2022 13:47:06 INFO]: Val accuracy at epoch 22: 95.11000061035156
+[10/10/2022 13:47:06 INFO]: Saving model to: model_.pth
+[10/10/2022 13:51:51 INFO]: Training loss at epoch 23: 0.018572977113051652
+[10/10/2022 13:51:51 INFO]: Training accuracy at epoch 23: 98.67
+[10/10/2022 13:51:51 INFO]: Val accuracy at epoch 23: 99.93000030517578
+[10/10/2022 13:51:51 INFO]: Saving model to: model_best.pth
+[10/10/2022 13:56:28 INFO]: Training loss at epoch 24: 0.5321416324360981
+[10/10/2022 13:56:28 INFO]: Training accuracy at epoch 24: 24.0025
+[10/10/2022 13:56:28 INFO]: Val accuracy at epoch 24: 0.0
+[10/10/2022 13:56:28 INFO]: Saving model to: model_.pth
+[10/10/2022 14:01:10 INFO]: Training loss at epoch 25: 0.5872636442258954
+[10/10/2022 14:01:10 INFO]: Training accuracy at epoch 25: 0.0
+[10/10/2022 14:01:10 INFO]: Val accuracy at epoch 25: 0.009999999776482582
+[10/10/2022 14:01:10 INFO]: Saving model to: model_.pth
+[10/10/2022 14:05:54 INFO]: Training loss at epoch 26: 0.15319672263386225
+[10/10/2022 14:05:54 INFO]: Training accuracy at epoch 26: 48.0925
+[10/10/2022 14:05:54 INFO]: Val accuracy at epoch 26: 96.58000183105469
+[10/10/2022 14:05:54 INFO]: Saving model to: model_.pth
+[10/10/2022 14:10:38 INFO]: Training loss at epoch 27: 0.02710255803913289
+[10/10/2022 14:10:38 INFO]: Training accuracy at epoch 27: 95.56
+[10/10/2022 14:10:38 INFO]: Val accuracy at epoch 27: 96.62000274658203
+[10/10/2022 14:10:38 INFO]: Saving model to: model_.pth
+[10/10/2022 14:15:21 INFO]: Training loss at epoch 28: 0.01616722521266452
+[10/10/2022 14:15:21 INFO]: Training accuracy at epoch 28: 99.5325
+[10/10/2022 14:15:21 INFO]: Val accuracy at epoch 28: 99.79000091552734
+[10/10/2022 14:15:21 INFO]: Saving model to: model_.pth
+[10/10/2022 14:20:03 INFO]: Training loss at epoch 29: 0.01753340672125964
+[10/10/2022 14:20:03 INFO]: Training accuracy at epoch 29: 97.94
+[10/10/2022 14:20:03 INFO]: Val accuracy at epoch 29: 99.7300033569336
+[10/10/2022 14:20:03 INFO]: Saving model to: model_.pth
+[10/10/2022 14:24:44 INFO]: Training loss at epoch 30: 0.023804629642268003
+[10/10/2022 14:24:44 INFO]: Training accuracy at epoch 30: 97.1975
+[10/10/2022 14:24:44 INFO]: Val accuracy at epoch 30: 99.88999938964844
+[10/10/2022 14:24:44 INFO]: Saving model to: model_.pth
+[10/10/2022 14:29:28 INFO]: Training loss at epoch 31: 0.027051709846742787
+[10/10/2022 14:29:28 INFO]: Training accuracy at epoch 31: 96.07
+[10/10/2022 14:29:28 INFO]: Val accuracy at epoch 31: 99.19000244140625
+[10/10/2022 14:29:28 INFO]: Saving model to: model_.pth
+[10/10/2022 14:34:11 INFO]: Training loss at epoch 32: 0.016401439283387963
+[10/10/2022 14:34:11 INFO]: Training accuracy at epoch 32: 99.3625
+[10/10/2022 14:34:11 INFO]: Val accuracy at epoch 32: 99.66000366210938
+[10/10/2022 14:34:11 INFO]: Saving model to: model_.pth
+[10/10/2022 14:38:56 INFO]: Training loss at epoch 33: 0.01594540296710702
+[10/10/2022 14:38:56 INFO]: Training accuracy at epoch 33: 98.9825
+[10/10/2022 14:38:56 INFO]: Val accuracy at epoch 33: 99.94000244140625
+[10/10/2022 14:38:56 INFO]: Saving model to: model_best.pth
+[10/10/2022 14:43:38 INFO]: Training loss at epoch 34: 0.013653085319459825
+[10/10/2022 14:43:38 INFO]: Training accuracy at epoch 34: 98.7225
+[10/10/2022 14:43:38 INFO]: Val accuracy at epoch 34: 99.95999908447266
+[10/10/2022 14:43:38 INFO]: Saving model to: model_best.pth
+[10/10/2022 14:48:21 INFO]: Training loss at epoch 35: 0.013111761257624713
+[10/10/2022 14:48:21 INFO]: Training accuracy at epoch 35: 99.5225
+[10/10/2022 14:48:21 INFO]: Val accuracy at epoch 35: 99.45999908447266
+[10/10/2022 14:48:21 INFO]: Saving model to: model_.pth
+[10/10/2022 14:53:06 INFO]: Training loss at epoch 36: 0.019678103536840675
+[10/10/2022 14:53:06 INFO]: Training accuracy at epoch 36: 97.045
+[10/10/2022 14:53:06 INFO]: Val accuracy at epoch 36: 99.94999694824219
+[10/10/2022 14:53:06 INFO]: Saving model to: model_.pth
+[10/10/2022 14:57:50 INFO]: Training loss at epoch 37: 0.02197949164183323
+[10/10/2022 14:57:50 INFO]: Training accuracy at epoch 37: 96.795
+[10/10/2022 14:57:50 INFO]: Val accuracy at epoch 37: 99.94000244140625
+[10/10/2022 14:57:50 INFO]: Saving model to: model_.pth
+[10/10/2022 15:02:32 INFO]: Training loss at epoch 38: 0.0147975410334801
+[10/10/2022 15:02:32 INFO]: Training accuracy at epoch 38: 99.2625
+[10/10/2022 15:02:32 INFO]: Val accuracy at epoch 38: 99.98999786376953
+[10/10/2022 15:02:32 INFO]: Saving model to: model_best.pth
+[10/10/2022 15:07:17 INFO]: Training loss at epoch 39: 0.012395437378277531
+[10/10/2022 15:07:17 INFO]: Training accuracy at epoch 39: 99.4425
+[10/10/2022 15:07:17 INFO]: Val accuracy at epoch 39: 99.97000122070312
+[10/10/2022 15:12:28 INFO]: Training accuracy: {30: 99.9625015258789, 31: 99.94499969482422, 32: 99.92749786376953, 33: 99.89250183105469, 34: 99.83499908447266, 35: 99.79499816894531, 36: 99.70500183105469, 37: 99.62750244140625, 38: 99.52749633789062, 39: 99.3125, 40: 99.05999755859375}
+[10/10/2022 15:12:28 INFO]: Val accuracy: {30: 99.97000122070312, 31: 99.95999908447266, 32: 99.94999694824219, 33: 99.94000244140625, 34: 99.93000030517578, 35: 99.87000274658203, 36: 99.83999633789062, 37: 99.80000305175781, 38: 99.68000030517578, 39: 99.51000213623047, 40: 99.2300033569336}
+[10/10/2022 15:12:28 INFO]: Test accuracy (hard data): {30: 4.300000190734863, 31: 4.619999885559082, 32: 4.900000095367432, 33: 5.210000038146973, 34: 5.300000190734863, 35: 5.510000228881836, 36: 5.550000190734863, 37: 5.510000228881836, 38: 5.489999771118164, 39: 5.480000019073486, 40: 5.380000114440918}
+[10/10/2022 15:12:28 INFO]: Saving model to: model_.pth
+[10/10/2022 15:17:12 INFO]: Training loss at epoch 40: 0.01035552017160694
+[10/10/2022 15:17:12 INFO]: Training accuracy at epoch 40: 98.8975
+[10/10/2022 15:17:12 INFO]: Val accuracy at epoch 40: 99.94000244140625
+[10/10/2022 15:17:12 INFO]: Saving model to: model_.pth
+[10/10/2022 15:21:55 INFO]: Training loss at epoch 41: 0.011939911022475371
+[10/10/2022 15:21:55 INFO]: Training accuracy at epoch 41: 99.59
+[10/10/2022 15:21:55 INFO]: Val accuracy at epoch 41: 99.9800033569336
+[10/10/2022 15:21:55 INFO]: Saving model to: model_.pth
+[10/10/2022 15:26:39 INFO]: Training loss at epoch 42: 0.010991367249120086
+[10/10/2022 15:26:39 INFO]: Training accuracy at epoch 42: 99.5225
+[10/10/2022 15:26:39 INFO]: Val accuracy at epoch 42: 99.91999816894531
+[10/10/2022 15:26:39 INFO]: Saving model to: model_.pth
+[10/10/2022 15:31:23 INFO]: Training loss at epoch 43: 0.011682851548637319
+[10/10/2022 15:31:23 INFO]: Training accuracy at epoch 43: 99.1925
+[10/10/2022 15:31:23 INFO]: Val accuracy at epoch 43: 99.95999908447266
+[10/10/2022 15:31:23 INFO]: Saving model to: model_.pth
+[10/10/2022 15:36:05 INFO]: Training loss at epoch 44: 0.013225431829873442
+[10/10/2022 15:36:05 INFO]: Training accuracy at epoch 44: 98.8
+[10/10/2022 15:36:05 INFO]: Val accuracy at epoch 44: 99.95999908447266
+[10/10/2022 15:36:05 INFO]: Saving model to: model_.pth
+[10/10/2022 15:40:47 INFO]: Training loss at epoch 45: 0.008060004915829987
+[10/10/2022 15:40:47 INFO]: Training accuracy at epoch 45: 99.95
+[10/10/2022 15:40:47 INFO]: Val accuracy at epoch 45: 99.91000366210938
+[10/10/2022 15:40:47 INFO]: Saving model to: model_.pth
+[10/10/2022 15:45:29 INFO]: Training loss at epoch 46: 0.014205645325617338
+[10/10/2022 15:45:29 INFO]: Training accuracy at epoch 46: 98.7775
+[10/10/2022 15:45:29 INFO]: Val accuracy at epoch 46: 99.9800033569336
+[10/10/2022 15:45:29 INFO]: Saving model to: model_.pth
+[10/10/2022 15:50:13 INFO]: Training loss at epoch 47: 0.011924018020679716
+[10/10/2022 15:50:13 INFO]: Training accuracy at epoch 47: 99.27
+[10/10/2022 15:50:13 INFO]: Val accuracy at epoch 47: 99.4000015258789
+[10/10/2022 15:50:13 INFO]: Saving model to: model_.pth
+[10/10/2022 15:54:57 INFO]: Training loss at epoch 48: 0.007142958552205955
+[10/10/2022 15:54:57 INFO]: Training accuracy at epoch 48: 99.935
+[10/10/2022 15:54:57 INFO]: Val accuracy at epoch 48: 99.88999938964844
+[10/10/2022 15:54:57 INFO]: Saving model to: model_.pth
+[10/10/2022 15:59:40 INFO]: Training loss at epoch 49: 0.009189947173720858
+[10/10/2022 15:59:40 INFO]: Training accuracy at epoch 49: 99.885
+[10/10/2022 15:59:40 INFO]: Val accuracy at epoch 49: 99.9800033569336
+[10/10/2022 16:04:48 INFO]: Training accuracy: {30: 99.98750305175781, 31: 99.98500061035156, 32: 99.98249816894531, 33: 99.97000122070312, 34: 99.97000122070312, 35: 99.9574966430664, 36: 99.92250061035156, 37: 99.87999725341797, 38: 99.81999969482422, 39: 99.73999786376953, 40: 99.62750244140625}
+[10/10/2022 16:04:48 INFO]: Val accuracy: {30: 99.9800033569336, 31: 99.97000122070312, 32: 99.97000122070312, 33: 99.97000122070312, 34: 99.94999694824219, 35: 99.94999694824219, 36: 99.9000015258789, 37: 99.88999938964844, 38: 99.81999969482422, 39: 99.79000091552734, 40: 99.68000030517578}
+[10/10/2022 16:04:48 INFO]: Test accuracy (hard data): {30: 2.75, 31: 3.059999942779541, 32: 3.440000057220459, 33: 3.740000009536743, 34: 4.03000020980835, 35: 4.230000019073486, 36: 4.409999847412109, 37: 4.550000190734863, 38: 4.579999923706055, 39: 4.690000057220459, 40: 4.789999961853027}
+[10/10/2022 16:04:48 INFO]: Saving model to: model_.pth
+[10/10/2022 16:04:49 INFO]: OrderedDict([('max_iters', 30), ('run_id', 'unraised-Lucrecia'), ('test_acc', {30: 2.75, 31: 3.059999942779541, 32: 3.440000057220459, 33: 3.740000009536743, 34: 4.03000020980835, 35: 4.230000019073486, 36: 4.409999847412109, 37: 4.550000190734863, 38: 4.579999923706055, 39: 4.690000057220459, 40: 4.789999961853027}), ('test_data', 33), ('test_iters', [30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40]), ('test_mode', 'default'), ('train_data', 9), ('train_acc', {30: 99.98750305175781, 31: 99.98500061035156, 32: 99.98249816894531, 33: 99.97000122070312, 34: 99.97000122070312, 35: 99.9574966430664, 36: 99.92250061035156, 37: 99.87999725341797, 38: 99.81999969482422, 39: 99.73999786376953, 40: 99.62750244140625}), ('val_acc', {30: 99.9800033569336, 31: 99.97000122070312, 32: 99.97000122070312, 33: 99.97000122070312, 34: 99.94999694824219, 35: 99.94999694824219, 36: 99.9000015258789, 37: 99.88999938964844, 38: 99.81999969482422, 39: 99.79000091552734, 40: 99.68000030517578})])

@@ -1,10 +1,10 @@
-[10/10/2022 09:30:44 INFO]: 
+[10/10/2022 16:04:52 INFO]: 
 _________________________________________________
 
-[10/10/2022 09:30:44 INFO]: train_model.py main() running.
-[10/10/2022 09:30:44 INFO]: problem:
+[10/10/2022 16:04:52 INFO]: train_model.py main() running.
+[10/10/2022 16:04:52 INFO]: problem:
   hyp:
-    alpha: 0.01
+    alpha: 0.0
     clip: null
     epochs: 50
     lr: 0.001
@@ -22,7 +22,7 @@ _________________________________________________
     val_period: 20
     warmup_period: 10
   model:
-    model: dt_net_2d
+    model: dt_net_recall_2d
     model_path: null
     width: 128
     max_iters: 30
@@ -34,12 +34,12 @@ _________________________________________________
   train_data: 9
 train_log: train_log
 name: mazes_ablation
-run_id: baccate-Richard
+run_id: algal-Collyn
 
 Files already downloaded and verified
 Loading mazes of size 9 x 9.
 Files already downloaded and verified
 Loading mazes of size 33 x 33.
-[10/10/2022 09:31:22 INFO]: This dt_net_2d has 0.633 million parameters.
-[10/10/2022 09:31:22 INFO]: Training will start at epoch 0.
-[10/10/2022 09:31:22 INFO]: ==> Starting training for 50 epochs...
+[10/10/2022 16:04:57 INFO]: This dt_net_recall_2d has 0.784 million parameters.
+[10/10/2022 16:04:57 INFO]: Training will start at epoch 0.
+[10/10/2022 16:04:57 INFO]: ==> Starting training for 50 epochs...
