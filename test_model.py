@@ -31,6 +31,8 @@ import deepthinking as dt
 
 @hydra.main(config_path="config", config_name="test_model_config")
 def main(cfg: DictConfig):
+    #error is we are picking up wrong data file, we are getting sums when we want mazes, we have to specify as shown in test_maze.sh
+
     device = "cuda" if torch.cuda.is_available() else "cpu"
     torch.backends.cudnn.benchmark = True
     if cfg.problem.hyp.save_period is None:

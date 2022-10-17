@@ -1,13 +1,13 @@
 #!/bin/bash
-#SBATCH --job-name=maze_9
+#SBATCH --job-name=maze_9.2
 #SBATCH --partition=gpu-batch
 #SBATCH --cpus-per-task=6
 #SBATCH --ntasks=1
 #SBATCH --mem-per-cpu=5000
 #SBATCH --time=1-00:00:00
 #SBATCH --mail-type=END,FAIL,TIME_LIMIT_80
-#SBATCH --output=shlurm_out_maze/maze_9.out
-#SBATCH --error=shlurm_out_maze/maze_9.err
+#SBATCH --output=shlurm_out_maze/maze_9.2.out
+#SBATCH --error=shlurm_out_maze/maze_9.2.err
 
 source /etc/profile.d/modules.sh
 module load CUDA

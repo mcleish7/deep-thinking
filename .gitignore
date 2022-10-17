@@ -133,3 +133,13 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+#slurm out and err files
+*.out
+*.err
+
+#graph output files
+*.edges
+*.emb
+*.model
+*.nyz

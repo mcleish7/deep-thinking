@@ -62,6 +62,13 @@ def test_default(net, testloader, iters, problem, device):
         for inputs, targets in tqdm(testloader, leave=False):
             inputs, targets = inputs.to(device), targets.to(device)
 
+            # #inputs = inputs.unsqueeze(0) #from stackoverflow but still not wokring
+            # print(inputs.size())
+            # inputs = inputs.unsqueeze(1)
+            # inputs = inputs.view([128,4,4,125])
+            # print(inputs.size())
+            # #inputs = inputs.view(inputs.size(-1), -1) #copied from below
+
             all_outputs = net(inputs, iters_to_do=max_iters)
 
             for i in range(all_outputs.size(1)):

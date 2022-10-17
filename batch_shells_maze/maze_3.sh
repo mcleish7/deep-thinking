@@ -1,13 +1,13 @@
 #!/bin/bash
-#SBATCH --job-name=maze_3
+#SBATCH --job-name=maze_3.2
 #SBATCH --partition=gpu-batch
 #SBATCH --cpus-per-task=6
 #SBATCH --ntasks=1
 #SBATCH --mem-per-cpu=5000
 #SBATCH --time=1-00:00:00
 #SBATCH --mail-type=END,FAIL,TIME_LIMIT_80
-#SBATCH --output=maze_3.out
-#SBATCH --error=maze_3.err
+#SBATCH --output=maze_3.2.out
+#SBATCH --error=maze_3.2.err
 
 source /etc/profile.d/modules.sh
 module load CUDA
