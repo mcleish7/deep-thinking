@@ -97,6 +97,7 @@ def trigger_if_plot(table, error_bars=True):
     
     values = ["dt","dt_prog","dt","dt_prog","dt_recall","dt_recall_prog","dt_recall","dt_recall_prog","ff","ff","ff","ff"]
     table["model"] = np.select(conditions, values)
+    #shading only shown for 0 option
     table = table[table.model != "0"]
     fig, ax = plt.subplots(figsize=(20, 9))
 
