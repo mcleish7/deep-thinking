@@ -11,4 +11,4 @@
 
 source /etc/profile.d/modules.sh
 module load CUDA
-srun python3.9 test.py
+srun python3.9 /dcs/large/u2004277/deep-thinking/train_model.py problem.hyp.alpha=1 problem.hyp.lr=0.0001 problem/model=dt_net_1d problem=prefix_sums name=prefix_sums_ablation problem.test_data=48

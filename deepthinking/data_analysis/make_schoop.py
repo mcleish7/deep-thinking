@@ -89,13 +89,9 @@ def trigger_if_plot(table, error_bars=True):
         (table['model']=="dt_net_recall_1d_width=400")& (table['alpha']==1),
         (table['model']=="dt_net_recall_2d_width=128")& (table['alpha']==0),
         (table['model']=="dt_net_recall_2d_width=128")& (table['alpha']==1),
-        (table['model']=="feedforward_net_1d_width=400"),
-        (table['model']=="feedforward_net_2d_width=128"),
-        (table['model']=="feedforward_net_recall_1d_width=400"),
-        (table['model']=="feedforward_net_recall_2d_width=128")
     ]
     
-    values = ["dt","dt_prog","dt","dt_prog","dt_recall","dt_recall_prog","dt_recall","dt_recall_prog","ff","ff","ff","ff"]
+    values = ["dt","dt_prog","dt","dt_prog","dt_recall","dt_recall_prog","dt_recall","dt_recall_prog"]
     table["model"] = np.select(conditions, values)
     #shading only shown for 0 option
     table = table[table.model != "0"]
@@ -231,8 +227,8 @@ def main():
     ax.set_xticks(x)
     ax.set_xticklabels(x, fontsize=34, rotation=37)
     if args.xlim is None:
-        ax.set_xlim([x.min() - 0.5, x.max() + 0.5])
-        #ax.set_xlim([0.0, 150.5])
+        #ax.set_xlim([x.min() - 0.5, x.max() + 0.5])
+        ax.set_xlim([0.0, 200.5])
     else:
         ax.set_xlim(args.xlim)
     if args.ylim is None:

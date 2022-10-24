@@ -65,7 +65,7 @@ class DTNet1D(nn.Module):
             self.width = planes * block.expansion
         return nn.Sequential(*layers)
 
-    def forward(self, x, iters_to_do, interim_thought=None, **kwargs):
+    def forward(self, x, iters_to_do=50, interim_thought=None, **kwargs):
         initial_thought = self.projection(x)
 
         if interim_thought is None:
@@ -74,6 +74,7 @@ class DTNet1D(nn.Module):
         all_outputs = torch.zeros((x.size(0), iters_to_do, 2, x.size(2))).to(x.device)
 
         for i in range(iters_to_do):
+            # print("iters to do",iters_to_do, " is " ,i)
             if self.recall:
                 interim_thought = torch.cat([interim_thought, x], 1)
 

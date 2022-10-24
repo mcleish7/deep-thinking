@@ -13,6 +13,7 @@ import einops
 import torch
 from icecream import ic
 from tqdm import tqdm
+import sys
 
 # Ignore statements for pylint:
 #     Too many branches (R0912), Too many statements (R0915), No member (E1101),
@@ -32,7 +33,6 @@ def test(net, loaders, mode, iters, problem, device):
             raise ValueError(f"{ic.format()}: test_{mode}() not implemented.")
         accs.append(accuracy)
     return accs
-
 
 def get_predicted(inputs, outputs, problem):
     outputs = outputs.clone()
@@ -70,12 +70,28 @@ def test_default(net, testloader, iters, problem, device):
             # #inputs = inputs.view(inputs.size(-1), -1) #copied from below
 
             all_outputs = net(inputs, iters_to_do=max_iters)
-
+            # print("print all outputs size is",all_outputs.shape) #shape[batch_size,test_iters,2,dim,dim]
             for i in range(all_outputs.size(1)):
                 outputs = all_outputs[:, i]
+
+
+                # torch.set_printoptions(profile="full")
+                # print("outputs size is ",outputs.shape) #shape[batch_size,2,dim,dim]
+                # #inputs = torch.reshape(inputs[0], (1,1, 512))
+                # #print(outputs[0])
+                # print("shape of big vector is ", outputs[0].shape) #shape[batch_size,dim,dim]
                 predicted = get_predicted(inputs, outputs, problem)
+                # print("predicted size is ",predicted.shape)
+                # print(predicted[0])
+                # print("shape of big vecotr is ", predicted[0].shape) #shape[dim,dim]
+                # print("targets size is ",targets.shape)
+                # torch.set_printoptions(profile="default")
+
+
                 targets = targets.view(targets.size(0), -1)
+                # print("targets size is ",targets.shape)
                 corrects[i] += torch.amin(predicted == targets, dim=[1]).sum().item()
+                # sys.exit()
 
             total += targets.size(0)
 
