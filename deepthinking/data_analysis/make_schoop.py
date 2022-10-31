@@ -81,14 +81,14 @@ def trigger_if_plot(table, error_bars=True):
     print("in function to trigger")
 
     conditions = [
-        (table['model']=="dt_net_1d_width=400") & (table['alpha']==0),
-        (table['model']=="dt_net_1d_width=400")& (table['alpha']==1),
-        (table['model']=="dt_net_2d_width=128") & (table['alpha']==0),
-        (table['model']=="dt_net_2d_width=128")& (table['alpha']==1),
-        (table['model']=="dt_net_recall_1d_width=400")& (table['alpha']==0),
-        (table['model']=="dt_net_recall_1d_width=400")& (table['alpha']==1),
-        (table['model']=="dt_net_recall_2d_width=128")& (table['alpha']==0),
-        (table['model']=="dt_net_recall_2d_width=128")& (table['alpha']==1),
+        (table['model']=="dt_net_1d_width=400") & (table['alpha']==0.0),
+        (table['model']=="dt_net_1d_width=400")& (table['alpha']==1.0),
+        (table['model']=="dt_net_2d_width=128") & (table['alpha']==0.0),
+        (table['model']=="dt_net_2d_width=128")& (table['alpha']==1.0),
+        (table['model']=="dt_net_recall_1d_width=400")& (table['alpha']==0.0),
+        (table['model']=="dt_net_recall_1d_width=400")& (table['alpha']==1.0),
+        (table['model']=="dt_net_recall_2d_width=128")& (table['alpha']==0.0),
+        (table['model']=="dt_net_recall_2d_width=128")& (table['alpha']==1.0),
     ]
     
     values = ["dt","dt_prog","dt","dt_prog","dt_recall","dt_recall_prog","dt_recall","dt_recall_prog"]
@@ -107,9 +107,10 @@ def trigger_if_plot(table, error_bars=True):
                  hue="model",
                  style="test_data" if len(test_datas) > 1 else None,
                  palette="dark",
+                 lw=4,
                  dashes=True,
                  units=None,
-                 legend="auto",
+                #  legend="auto",
                  ax=ax)
 
     # if error_bars and "test_acc_sem" in table.keys():
@@ -198,6 +199,7 @@ def main():
         plot_title = "Schoopy Plot"
     else:
         plot_title = args.plot_name[:-4]
+        plot_title = args.plot_name
 
     # get table of results
     table = get_table(args.filepath,
@@ -217,8 +219,8 @@ def main():
     if args.line_thick_alpha == True:
         ax = get_schoopy_plot(table)
     else:
-        ax = trigger_if_plot(table)
-        #ax = get_schoopy_plot_no_alpha_lines(table)
+        # ax = trigger_if_plot(table)
+        ax = get_schoopy_plot_no_alpha_lines(table)
 
     ax.legend(fontsize=26, loc="upper left", bbox_to_anchor=(1.0, 0.8))
     x_max = table.test_iter.max()
@@ -227,8 +229,9 @@ def main():
     ax.set_xticks(x)
     ax.set_xticklabels(x, fontsize=34, rotation=37)
     if args.xlim is None:
-        #ax.set_xlim([x.min() - 0.5, x.max() + 0.5])
-        ax.set_xlim([0.0, 200.5])
+        ax.set_xlim([x.min() - 0.5, x.max() + 0.5])
+        # ax.set_xlim([1.5, 100.5]) #for right figure 6
+        # ax.set_xlim([1.5, 500.5]) #for figure 3
     else:
         ax.set_xlim(args.xlim)
     if args.ylim is None:
@@ -241,7 +244,12 @@ def main():
     ax.spines["right"].set_visible(False)
     ax.spines["top"].set_visible(False)
     plt.tight_layout()
-
+    # for line in ax.get_legend().get_lines():
+    #     line.set_linewidth(10.0)
+    if (plot_title == "Figure-3") or (plot_title == "Maze-Anomaly"):
+        print("true")
+        for line in ax.get_lines():
+            line.set_linewidth(4.0)
     plt.savefig(args.plot_name)
     #plt.show()
 

@@ -33,13 +33,22 @@ def get_net():
     net.eval()
     return net
 
+def get_other_net():
+    net = getattr(models, "dt_net_recall_2d")(width=128, in_channels=3, max_iters=30) # for Col => recall, alpha =0
+    state_dict = torch.load("batch_shells_maze/outputs/mazes_ablation/training-algal-Collyn/model_best.pth", map_location=device)
+    net = net.to(device)
+    net = torch.nn.DataParallel(net)
+    net.load_state_dict(state_dict["net"])
+    net.eval()
+    return net
+
 ex = torch.zeros((3, 1, 400), dtype=torch.float)
 
 def get_data():
-    # data = np.load("batch_reproduce_5/data/maze_data_test_13/inputs.npy")
-    # target = np.load("batch_reproduce_5/data/maze_data_test_13/solutions.npy")
-    data = np.load("batch_reproduce_5/data/maze_data_test_33/inputs.npy")
-    target = np.load("batch_reproduce_5/data/maze_data_test_33/solutions.npy")
+    data = np.load("batch_reproduce_5/data/maze_data_test_13/inputs.npy")
+    target = np.load("batch_reproduce_5/data/maze_data_test_13/solutions.npy")
+    # data = np.load("batch_reproduce_5/data/maze_data_test_33/inputs.npy")
+    # target = np.load("batch_reproduce_5/data/maze_data_test_33/solutions.npy")
     a = data[1]
     a = torch.from_numpy(a)
     input = a.to(device, dtype=torch.float).unsqueeze(0) #to account for batching in real net
@@ -76,8 +85,11 @@ def convert_to_bits(output, input): #moves from net output to one string of bits
     return golden_label
 
 def graph_progress(arr):
-    plt.plot(arr)
-    plt.title('Values of correct array')
+    plt.plot(arr*(100.0/1024.0), linewidth = '3.0', label = "dt_recall_prog")
+    plt.title('Accuracy over time when features swapped')
+    plt.xlabel('Test-Time iterations')
+    plt.ylabel('Accuracy')
+    plt.legend(loc="lower right")
     save_path = os.path.join("test_noise_outputs","test_noise_correctness.png")
     plt.savefig(save_path)
 
@@ -194,7 +206,9 @@ class custom_func(fault_injection):
         # self.count +=1
         # if (self.get_current_layer() >= self.get_total_layers()-15) and (self.get_current_layer() <= self.get_total_layers()-10):
         # if (self.get_current_layer() >= 140) and (self.get_current_layer() <= 210):
-        if (self.get_current_layer() >= 35) and (self.get_current_layer() <= 43):
+        layer_from =25
+        layer_to = 27
+        if (self.get_current_layer() >= (layer_from*7)) and (self.get_current_layer() <= ((layer_to*7)+1)):
             # print(input)
             # print(self.get_current_layer())
             output[:] = torch.zeros(output.shape)
@@ -217,10 +231,56 @@ with torch.no_grad():
 
     inj_output = inj(input)
 
-    inj_label,matches = net_out_to_bits(input,inj_output,target,graph=True)
+    inj_label,matches = net_out_to_bits(input,inj_output,target,graph=False)
     # , log=True, graph=True)
     print("[Single Error] PytorchFI label from class:", inj_label)
     print("matches in inj_label is ",matches)
+
+other_net = get_other_net()
+with torch.no_grad():
+    pfi_model_3 = custom_func(other_net, 
+                            batch_size,
+                            input_shape=[channels,width,height],
+                            layer_types=layer_types_input,
+                            use_cuda=True
+                        )
+    # print(pfi_model_2.print_pytorchfi_layer_summary())
+    inj = pfi_model_3.declare_neuron_fi(function=pfi_model_2.flip_all)
+
+    inj_output_2 = inj(input)
+
+    inj_label,matches = net_out_to_bits(input,inj_output_2,target,graph=False)
+    # , log=True, graph=True)
+    print("[Single Error] PytorchFI label from class:", inj_label)
+    print("matches in inj_label is ",matches)
+
+def graph_two_helper(output,input,target):
+    output = output.clone()
+    corrects = torch.zeros(output.size(1))
+    for i in range(output.size(1)):
+        outputi = output[:, i]
+
+        golden_label = convert_to_bits(outputi, input)
+
+        target = target.view(target.size(0), -1)
+
+        corrects[i] += torch.amin(golden_label == target, dim=[0]).sum().item()
+    correct = corrects.cpu().detach().numpy()
+    return correct
+
+def graph_two(input,output_1,output_2,target): #output from the net and the target bit string
+    data_1 = graph_two_helper(output_1,input,target)
+    data_2 = graph_two_helper(output_2,input,target)
+    plt.plot(data_1*(100.0/1024.0), linewidth = '3.0', label = "dt_recall_prog")
+    plt.plot(data_2*(100.0/1024.0), linewidth = '3.0', label = "dt_recall")
+    plt.title('Accuracy over time when features swapped')
+    plt.xlabel('Test-Time iterations')
+    plt.ylabel('Accuracy')
+    plt.legend(loc="lower right")
+    save_path = os.path.join("test_noise_outputs","repo_7.png")
+    plt.savefig(save_path)
+
+graph_two(input,inj_output,inj_output_2,target)
 
 # net = get_net()
 # pfi_model_3 = fault_injection(net, 
