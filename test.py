@@ -86,7 +86,22 @@ import torch
 
 # print(l2_norm(inp))
 
-import os
-print(os.getcwd())
-os.chdir("/dcs/large/u2004277/deep-thinking/")
-print(os.getcwd())
+# import os
+# print(os.getcwd())
+# os.chdir("/dcs/large/u2004277/deep-thinking/")
+# print(os.getcwd())
+
+# import os
+# import shutil
+
+# from_folder = "graph_6"
+# to_folder = "data"
+# dir = os.path.join("~/Desktop/graph_generation_files", from_folder)
+# dir = os.path.expanduser(dir)
+# path = os.path.join(to_folder, from_folder)
+# shutil.copytree(dir, path)
+
+from deepthinking.utils.graph_data import prepare_graph_loader
+# prepare_graph_loader(train_batch_size, test_batch_size, train_data, test_data, shuffle=True)
+prepare_graph_loader(100, 100, 6, 6, False)
+

@@ -21,6 +21,7 @@ import deepthinking.models as models
 from .mazes_data import prepare_maze_loader
 from .prefix_sums_data import prepare_prefix_loader
 from .chess_data import prepare_chess_loader
+from .graph_data import prepare_graph_loader
 from .. import adjectives, names
 
 from .warmup import ExponentialWarmup, LinearWarmup
@@ -35,7 +36,6 @@ from .warmup import ExponentialWarmup, LinearWarmup
 def generate_run_id():
     hashstr = f"{adjectives[random.randint(0, len(adjectives))]}-{names[random.randint(0, len(names))]}"
     return hashstr
-
 
 def get_dataloaders(problem_args):
     if problem_args.name == "prefix_sums":
@@ -53,6 +53,11 @@ def get_dataloaders(problem_args):
                                     test_batch_size=problem_args.hyp.test_batch_size,
                                     train_data=problem_args.train_data,
                                     test_data=problem_args.test_data)
+    elif problem_args.name == "graphs":
+        return prepare_graph_loader(train_batch_size=problem_args.hyp.train_batch_size,
+                                   test_batch_size=problem_args.hyp.test_batch_size,
+                                   train_data=problem_args.train_data,
+                                   test_data=problem_args.test_data)
     else:
         raise ValueError(f"Invalid problem spec. {problem_args.name}")
 
