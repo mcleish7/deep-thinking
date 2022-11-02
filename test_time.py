@@ -110,7 +110,7 @@ def graph_time(arr):
     plt.clf()
     plt.plot(arr)
     plt.title('Iterations to recover')
-    save_path = os.path.join("test_time_outputs","test_time_correctness.png")
+    save_path = os.path.join("test_time","test_time_correctness.png")
     plt.savefig(save_path)
 
 print("now going into loop")
@@ -122,6 +122,9 @@ with torch.no_grad():
         for i in range(0,inputs.size(0)):
             if (i%1000==0):
                 print("starting iteration: ",i , " for index: ", index)
+                file_path = os.path.join("test_time","time_tracker_2.txt")
+                with open(file_path, 'w') as f:
+                    f.write(f"starting iteration: {i} for index: {index}")
             input = inputs[i].unsqueeze(0)
             target = targets[i].unsqueeze(0)
 
@@ -137,6 +140,9 @@ with torch.no_grad():
             average.append(count_to_correct(inj_output,target))
         mean = sum(average) / len(average)
         time.append(mean)
+        file_path = os.path.join("test_time","time_list_tracker.txt")
+        with open(file_path, 'r+') as f:
+            f.write(f"for index: {index} the time array is {time}")
     print(time)
     graph_time(time)
 
