@@ -19,6 +19,7 @@
 # python3.9 /dcs/large/u2004277/deep-thinking/test_model.py problem.model.model_path=../../../../batch_shells_sums/outputs/prefix_sums_ablation/training-peeling-Betzaida problem=mazes problem.model.test_iterations.low=0 problem.model.test_iterations.high=10
 
 import torch 
+import numpy as np
 # inp = torch.rand([1,2,32])
 # def convert_to_bits(input): #moves from net output to one string of bits
 #     print("in shape is ", input.shape)
@@ -103,5 +104,113 @@ import torch
 
 from deepthinking.utils.graph_data import prepare_graph_loader
 # prepare_graph_loader(train_batch_size, test_batch_size, train_data, test_data, shuffle=True)
-prepare_graph_loader(100, 100, 6, 6, False)
 
+# prepare_graph_loader(100, 100, 6, 6, False)
+
+# inputs_path = "tests/data/graph_test_6/inputs.npz"
+# inputs_np = np.load(inputs_path)['arr_0']
+# print(inputs_np.shape)
+# print(inputs_np[0])
+# print(np.any(np.isnan(inputs_np)))
+
+# sols_path = "tests/data/graph_test_6/solutions.npz"
+# sols_np = np.load(sols_path)['arr_0']
+# print(sols_np.shape)
+# print(sols_np[0])
+
+
+def get_data():
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    # data = np.load("batch_reproduce_5/data/maze_data_test_13/inputs.npy")
+    # target = np.load("batch_reproduce_5/data/maze_data_test_13/solutions.npy")
+    data = np.load("batch_reproduce_5/data/maze_data_test_33/inputs.npy")
+    target = np.load("batch_reproduce_5/data/maze_data_test_33/solutions.npy")
+    a = data[1]
+    a = torch.from_numpy(a)
+    input = a.to(device, dtype=torch.float).unsqueeze(0) #to account for batching in real net
+    print("input shape is ",input.shape)
+
+    b = target[1]
+    t = torch.from_numpy(b)
+    print("t is ",t.dtype)
+    t = t.to(device, dtype=torch.float)#.long()
+    print("t in middle is ",t.dtype)
+    target = t.unsqueeze(0)
+    return input, target, a
+
+# i,t,a = get_data()
+# print(i.shape) #torch.Size([1, 3, 32, 32]) for 13x13, for 33x33 32 goes to 72
+# print(t.shape) #torch.Size([1, 32, 32]) for 13x13
+# current error
+# RuntimeError: Given groups=1, weight of size [128, 3, 3, 3], expected input[50, 1, 6, 6] to have 3 channels, but got 1 channels instead
+# changed in_channels to 1 and new error is 
+# RuntimeError: Expected target size [50, 36], got [50, 1]
+import matplotlib.pyplot as plt
+import os
+# Betz data
+l = [18.1349, 19.907, 24.0738, 25.3438, 25.8389, 25.7408, 25.3065, 24.7848, 24.2047, 23.6946, 23.3269, 22.7508, 22.3547, 21.8837, 21.4098, 20.8964, 20.5066, 20.0099, 19.4742, 18.9723, 18.4464, 18.0089, 17.5026, 16.982, 16.5222, 15.9724, 15.5709, 15.006, 14.4962, 14.0435, 13.5449, 13.0145, 12.4881, 12.0132, 11.5107, 10.98, 10.5114]
+# print("l is length ",len(l))
+# for index: 39 the time array is  
+l1 = [9.9924, 9.4904, 8.9798]
+l = l+l1
+# print("l is length ",len(l))
+# print(l)
+
+# [18, 25.3438, 25.8389, 25.7408, 25.3065, 24.7848, 24.2047, 23.6946, 23.3269, 22.7508, 22.3547, 21.8837, 21.4098, 20.8964, 20.5066, 20.0099, 19.4742, 18.9723, 18.4464, 18.0089, 17.5026, 16.982, 16.5222, 15.9724, 15.5709, 15.006, 14.4962, 14.0435, 13.5449, 13.0145, 12.4881, 12.0132, 11.5107, 10.98, 10.5114]
+def graph_progress(arr, title, folder, file):
+    plt.plot(arr)
+    plt.title(title)
+    save_path = os.path.join(folder,file)
+    plt.savefig(save_path)
+
+# graph_progress(l,'Time to recover from pertubation',"test_time","test_time_Betz_correctness.png")
+
+arr = [[[ 0, -1, -1, -1, -1, -1],
+  [-1,  0,  1,  1,  2,  1],
+  [-1,  1,  0,  2,  1,  1,],
+  [-1,  1,  2,  0,  3,  2],
+  [-1,  2,  1,  3,  0,  2],
+  [-1,  1,  1,  2,  2,  0]],
+ [[ 0, -1,  1,  1, -1,  2],
+  [-1,  0, -1, -1,  1, -1],
+  [ 1, -1,  0,  1, -1,  1],
+  [ 1, -1,  1,  0, -1,  1],
+  [-1,  1, -1, -1,  0, -1],
+  [ 2, -1,  1,  1, -1,  0]]]
+# X = np.array(arr)
+# print(X.shape)
+# XNormed = (X - X.mean())/(X.std())
+# print(XNormed)
+
+# import gensim
+# model = gensim.models.KeyedVectors.load_word2vec_format('graph_generation/graph_generation_files/graph_5/test_filename.emb')
+# print(type(model))
+# print(model)
+# weights = torch.FloatTensor(model.vectors)
+# print(weights)
+# first=weights
+# second = torch.load()
+# print(torch.eq(first, second))
+
+
+from sklearn.metrics import mean_squared_error
+
+# mse = mean_squared_error(arr[0],arr[1])
+# print(round(mse, 2))
+
+c = (np.array(arr) >-1).astype(int)
+# print(c)
+input = torch.from_numpy(np.array([[ 0, 2, -1, -1, -1, -1],
+  [-1,  0,  1,  1,  2,  1],
+  [-1,  1,  0,  2,  1,  1,],
+  [-1,  1,  2,  0,  3,  2],
+  [-1,  2,  1,  3,  0,  2],
+  [-1,  1,  1,  2,  2,  0]]))
+# input = torch.zeros([6,6])
+predicted = torch.rand(6,6)
+golden_label = predicted.float() * (input.max(1)[0].view(input.size(0), -1))
+other = (input.max(1)[0].view(input.size(0), -1))
+print(input)
+print(predicted)
+print(other)
+print(golden_label)

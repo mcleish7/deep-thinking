@@ -70,6 +70,7 @@ def graph_creation(n, method = "random"): #n=number of nodes in graph
         graph = nx.path_graph(n)
     try:
         sp = nx.shortest_path(graph, 0, 4)
+        
         # print(sp)
     except:
         sp = None

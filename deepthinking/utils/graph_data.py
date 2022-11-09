@@ -7,6 +7,7 @@
 import torch
 from torch.utils import data
 from .graph_data_class import GraphDataset
+import numpy as np
 
 # Ignore statemenst for pylint:
 #     Too many branches (R0912), Too many statements (R0915), No member (E1101),
@@ -18,8 +19,9 @@ from .graph_data_class import GraphDataset
 
 def prepare_graph_loader(train_batch_size, test_batch_size, train_data, test_data, shuffle=True):
 #"../../../data"
-    train_data = GraphDataset("tests/data", train=True, size=train_data, download=True)
-    testset = GraphDataset("tests/data", train=False, size=test_data, download=True)
+#tests/data
+    train_data = GraphDataset("../../../data", train=True, size=train_data, download=True)
+    testset = GraphDataset("../../../data", train=False, size=test_data, download=True)
 
     train_split = int(0.8 * len(train_data))
 
@@ -27,7 +29,9 @@ def prepare_graph_loader(train_batch_size, test_batch_size, train_data, test_dat
                                                      [train_split,
                                                       int(len(train_data) - train_split)],
                                                      generator=torch.Generator().manual_seed(42))
-
+    #only working with one piece of data
+    # valset = trainset
+    # testset = trainset
     trainloader = data.DataLoader(trainset,
                                   num_workers=0,
                                   batch_size=train_batch_size,

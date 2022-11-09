@@ -8,7 +8,9 @@
 #SBATCH --output=slurm-outputs/graph_gen.out
 #SBATCH --error=slurm-outputs/graph_gen.err
 
-srun python3.9 core_graph_generation.py --n 6 --x 10000 --sp True --train
-srun python3.9 core_graph_generation.py --n 6 --x 10000 --sp True
-srun python3.9 core_graph_generation.py --n 8 --x 10000 --sp True --train
-srun python3.9 core_graph_generation.py --n 8 --x 10000 --sp True
+# srun python3.9 core_graph_generation.py --n 6 --x 10000 --sp True --save --embed n2v --train
+# srun python3.9 core_graph_generation.py --n 6 --x 10000 --sp True --save --embed n2v
+# srun python3.9 core_graph_generation.py --n 8 --x 10000 --sp True --save --embed n2v --train
+# srun python3.9 core_graph_generation.py --n 8 --x 10000 --sp True --save --embed n2v
+srun python3.9 core_graph_generation.py --n 64 --x 10000 --sp True --save --embed n2v --train 
+srun python3.9 core_graph_generation.py --n 64 --x 10000 --sp True --save --embed n2v

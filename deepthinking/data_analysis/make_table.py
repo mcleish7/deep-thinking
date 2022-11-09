@@ -101,7 +101,6 @@ def get_table(filepath, disp_max, disp_min, filter_at=None, max_iters_list=None,
                        "with accuracy above the filter value.")
     return table
 
-
 def main():
     parser = argparse.ArgumentParser(description="Analysis parser")
     parser.add_argument("filepath", type=str)

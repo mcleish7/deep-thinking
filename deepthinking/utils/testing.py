@@ -38,7 +38,7 @@ def get_predicted(inputs, outputs, problem):
     outputs = outputs.clone()
     predicted = outputs.argmax(1)
     predicted = predicted.view(predicted.size(0), -1)
-    if problem == "mazes":
+    if (problem == "mazes"):# or (problem == "graphs"):
         predicted = predicted * (inputs.max(1)[0].view(inputs.size(0), -1))
     elif problem == "chess":
         outputs = outputs.view(outputs.size(0), outputs.size(1), -1)
@@ -48,7 +48,14 @@ def get_predicted(inputs, outputs, problem):
         outputs[:, 1][outputs[:, 1] < top_2] = -float("Inf")
         outputs[:, 0] = -float("Inf")
         predicted = outputs.argmax(1)
-
+    # elif problem == "graphs":
+    #     # print("output is: ",outputs[0][0].flatten().unsqueeze(0).shape)
+    #     # print("predicting: ",predicted.shape)
+    #     print("inputs is ",inputs)
+    #     print("outputs is: ",outputs)
+    #     # print(outputs[0][0].flatten().unsqueeze(0))
+    #     return outputs[0][0].flatten().unsqueeze(0)
+    print(predicted)
     return predicted
 
 

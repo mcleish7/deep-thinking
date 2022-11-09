@@ -188,7 +188,7 @@ def main():
                         help="only plot models with widths in given list")
     parser.add_argument("--max", action="store_true", help="add max values to table?")
     parser.add_argument("--min", action="store_true", help="add min values too table?")
-    parser.add_argument("--xlim", type=list, nargs="+", default=None, help="x limits for plotting")
+    parser.add_argument("--xlim", type=float, nargs="+", default=None, help="x limits for plotting")
     parser.add_argument("--ylim", type=float, nargs="+", default=None, help="y limits for plotting")
     parser.add_argument("--line_thick_alpha", type=bool, default=False, help="makes the thickness of lines in graph proporional to alpha used")
     args = parser.parse_args()
@@ -233,7 +233,7 @@ def main():
         # ax.set_xlim([1.5, 100.5]) #for right figure 6
         # ax.set_xlim([1.5, 500.5]) #for figure 3
     else:
-        ax.set_xlim(args.xlim)
+        ax.set_xlim([x.min() - 0.5,320])
     if args.ylim is None:
         ax.set_ylim([0, 103])
     else:

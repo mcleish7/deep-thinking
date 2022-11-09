@@ -24,7 +24,7 @@ from torch.utils.tensorboard import SummaryWriter
 
 import deepthinking as dt
 import deepthinking.utils.logging_utils as lg
-
+CUDA_LAUNCH_BLOCKING=1
 
 # Ignore statements for pylint:
 #     Too many branches (R0912), Too many statements (R0915), No member (E1101),
@@ -77,7 +77,7 @@ def main(cfg: DictConfig):
     best_so_far = False
 
     for epoch in range(start_epoch, cfg.problem.hyp.epochs):
-        torch.cuda.empty_cache()
+        #torch.cuda.empty_cache()
         #torch.cuda.garbage_collection_threshold = 0.8
         loss, acc = dt.train(net, loaders, cfg.problem.hyp.train_mode, train_setup, device)
         val_acc = dt.test(net, [loaders["val"]], cfg.problem.hyp.test_mode, [cfg.problem.model.max_iters],
@@ -89,7 +89,7 @@ def main(cfg: DictConfig):
         log.info(f"Training loss at epoch {epoch}: {loss}")
         log.info(f"Training accuracy at epoch {epoch}: {acc}")
         log.info(f"Val accuracy at epoch {epoch}: {val_acc}")
-
+        
         # if the loss is nan, then stop the training
         if np.isnan(float(loss)):
             raise ValueError(f"{ic.format()} Loss is nan, exiting...")
@@ -132,6 +132,7 @@ def main(cfg: DictConfig):
             best_so_far = False
             log.info(f"Saving model to: {out_str}")
             torch.save(state, out_str)
+        torch.cuda.empty_cache()
     writer.flush()
     writer.close()
 

@@ -126,17 +126,22 @@ def train_progressive(net, loaders, train_setup, device):
         loss_progressive_mean = loss_progressive.mean()
 
         loss = (1 - alpha) * loss_max_iters_mean + alpha * loss_progressive_mean
+        # print("loss max iters is: ",loss_max_iters_mean)
+        # print("loss progressive is: ",loss_progressive_mean)
         loss.backward()
 
         if clip is not None:
             torch.nn.utils.clip_grad_norm_(net.parameters(), clip)
         optimizer.step()
-
+        # print("loss item is:",loss.item())
         train_loss += loss.item()
         predicted = get_predicted(inputs, outputs_max_iters, problem)
         correct += torch.amin(predicted == targets, dim=[-1]).sum().item()
         total += targets.size(0)
 
+        # from sklearn.metrics import mean_squared_error
+        # mse = round(mean_squared_error(predicted,targets),2)
+        
     train_loss = train_loss / (batch_idx + 1)
     acc = 100.0 * correct / total
 

@@ -150,10 +150,15 @@ no_prog_output = tester(get_no_prog_net())
 
 def graph_norm_progress(arr1, arr2, arr3, arr4):
     plt.clf()
+    spacer = np.linspace(0.01, 10000000, 49)
+    #spacer,
     plt.plot(arr1, linewidth = '3.0', label = "dt_recall_prog")
     plt.plot(arr2, linewidth = '3.0', label = "dt_recall")
     plt.plot(arr3, linewidth = '3.0', label = "dt_prog")
     plt.plot(arr4, linewidth = '3.0', label = "dt")
+    # plt.yticks([0.001,1,100,10000])
+    plt.yscale('log')
+    plt.ylim([10**-8,10**15])
     plt.title('Change in features over time')
     plt.xlabel('Test-Time iterations')
     plt.ylabel('Δφ')

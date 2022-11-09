@@ -129,6 +129,8 @@ def load_model_from_checkpoint(problem, model_args, device):
     in_channels = 3
     if problem == "chess":
         in_channels = 12
+    if problem == "graphs":
+        in_channels = 1
 
     net = get_model(model, width, in_channels=in_channels, max_iters=max_iters)
     net = net.to(device)

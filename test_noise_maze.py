@@ -45,6 +45,7 @@ def get_other_net():
 ex = torch.zeros((3, 1, 400), dtype=torch.float)
 
 def get_data():
+    device = "cuda" if torch.cuda.is_available() else "cpu"
     data = np.load("batch_reproduce_5/data/maze_data_test_13/inputs.npy")
     target = np.load("batch_reproduce_5/data/maze_data_test_13/solutions.npy")
     # data = np.load("batch_reproduce_5/data/maze_data_test_33/inputs.npy")
