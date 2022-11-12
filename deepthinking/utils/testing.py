@@ -55,7 +55,7 @@ def get_predicted(inputs, outputs, problem):
     #     print("outputs is: ",outputs)
     #     # print(outputs[0][0].flatten().unsqueeze(0))
     #     return outputs[0][0].flatten().unsqueeze(0)
-    print(predicted)
+    # print(predicted)
     return predicted
 
 

@@ -210,7 +210,79 @@ input = torch.from_numpy(np.array([[ 0, 2, -1, -1, -1, -1],
 predicted = torch.rand(6,6)
 golden_label = predicted.float() * (input.max(1)[0].view(input.size(0), -1))
 other = (input.max(1)[0].view(input.size(0), -1))
-print(input)
-print(predicted)
-print(other)
-print(golden_label)
+# print(input)
+# print(predicted)
+# print(other)
+# print(golden_label)
+
+
+def get_data_maze():
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    data = np.load("batch_reproduce_5/data/maze_data_test_13/inputs.npy")
+    target = np.load("batch_reproduce_5/data/maze_data_test_13/solutions.npy")
+    # data = np.load("batch_reproduce_5/data/maze_data_test_33/inputs.npy")
+    # target = np.load("batch_reproduce_5/data/maze_data_test_33/solutions.npy")
+    a = data[1]
+    a = torch.from_numpy(a)
+    input = a.to(device, dtype=torch.float).unsqueeze(0) #to account for batching in real net
+    # print("input shape is ",input.shape)
+
+    b = target[1]
+    t = torch.from_numpy(b)
+    # print("t is ",t.dtype)
+    t = t.to(device, dtype=torch.float)#.long()
+    # print("t in middle is ",t.dtype)
+    target = t.unsqueeze(0)
+    return input, target, a
+
+
+# from easy_to_hard_plot import plot_maze --- copied code in
+import seaborn as sns
+def plot_maze(inputs, targets, save_str):
+    fig, axs = plt.subplots(1, 2, figsize=(10, 5))
+
+    ax = axs[0]
+    print("permutes shape is ",inputs.cpu().squeeze().permute(1, 2, 0).shape)
+    ax.imshow(inputs.cpu().squeeze().permute(1, 2, 0))
+    #removes the axis for next 4 lines
+    ax.spines['left'].set_visible(False)
+    ax.spines['bottom'].set_visible(False)
+    ax.set_yticks([])
+    ax.set_xticks([])
+
+    ax = axs[1]
+    sns.heatmap(targets, ax=ax, cbar=False, linewidths=0, square=True, rasterized=True)
+    #removes the axis for next 4 lines
+    ax.spines['left'].set_visible(False)
+    ax.spines['bottom'].set_visible(False)
+    ax.set_yticks([])
+    ax.set_xticks([])
+
+    plt.tight_layout()
+    plt.savefig(save_str, bbox_inches="tight")
+    plt.close()
+  
+input, target, a = get_data_maze()
+inputnp = np.load("batch_reproduce_5/data/maze_data_test_13/inputs.npy")[1]
+target = np.load("batch_reproduce_5/data/maze_data_test_13/solutions.npy")[1]
+print("input is ",input.shape)
+print("target is ",target.shape)
+with np.printoptions(threshold=np.inf):
+  torch.set_printoptions(profile="full")
+  # print(input[0,1])
+  torch.set_printoptions(profile="default")
+
+fig, axs = plt.subplots(1, 5, figsize=(10, 5))
+axs[0].imshow(input.cpu().squeeze().permute(1, 2, 0))
+sns.heatmap(target, ax=axs[1], cbar=False, linewidths=0, square=True, rasterized=True)
+print("shape is ",input.cpu().squeeze().permute(1, 2, 0).shape)
+print("shape no perm is ",input.cpu().squeeze().shape)
+print("shape no perm 0 is ",input.cpu().squeeze()[0].shape)
+axs[2].imshow(input.cpu().squeeze()[0],cmap='Greys')
+axs[3].imshow(input.cpu().squeeze()[1],cmap='Greys')
+axs[4].imshow(input.cpu().squeeze()[2],cmap='Greys')
+plt.tight_layout()
+plt.savefig("test_1", bbox_inches="tight")
+plt.close()
+
+# plot_maze(input,target,"testing")

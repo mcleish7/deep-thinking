@@ -145,3 +145,6 @@ venv.bak/
 *.nyz
 *.npz
 *.txt
+
+*.ipynb_checkpoints
+*.ipynb
