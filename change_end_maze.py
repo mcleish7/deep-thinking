@@ -7,6 +7,7 @@ import numpy as np
 import sys
 import os
 import json
+import re
 # import tensorflow as tf
 import matplotlib.pyplot as plt
 from easy_to_hard_plot import plot_maze
@@ -154,8 +155,9 @@ with torch.no_grad():
 
 batch_size = 1
 channels = 3
-width = 128
+width = 32
 height = width
+# layer_types_input = [torch.nn.Conv2d]
 layer_types_input = ["all"]
 # net = get_net()
 # pfi_model = fault_injection(net, 
@@ -189,13 +191,37 @@ class custom_func(fault_injection):
 
     # define your own function
     def flip_all(self, module, input, output): #output is a tuple of length 1, with index 0 holding the current tensor
+        # print(module)
+        # print(type(module))
+        # print(type(str(module)))
+        # print(str(module)[5:6])
+        nums = re.findall(r'\d+', str(module))
+        # print(nums)
+        if ('8' in nums) and ('2'in nums):
+            # print("yes")
+            print("!!!!!in if and found input: ",input[0].shape," and output: ",output.shape)
+        # sys.exit()
+        # print(input)
+        # print(output)
         layer_from =25
         layer_to = 27
         # file_path = os.path.join("test_time","time_list_tracker.txt")
         with open("test_change_ends.txt", 'a+') as f:
             f.write(f"output shape is {output.shape} at {self.get_current_layer()}\n")
         # print("output shape is ",output.shape," at ",self.get_current_layer())
-        # print("input shape is ",output.shape," at ",self.get_current_layer())
+        # print("input shape is ",input.shape," at ",self.get_current_layer())
+        # print(type(output.size(1)))
+        # print(type(input))
+        # print(input[0].shape)
+        # print(input[0].size(1))
+        if (abs(output.size(1) - input[0].size(1)) < 5) and (output.size(1) != input[0].size(1)):
+            print("found input: ",input[0].shape," and output: ",output.shape)
+            # print(type(input[0])) is a tensor
+         # print(type(output.size(1))) is an int
+        if output.size(1)==131:
+            sys.exit()
+            print("skippp")
+        # print()
         # if (self.get_current_layer() >= (layer_from*7)) and (self.get_current_layer() <= ((layer_to*7)+1)):
             # print("output shape is ",output.shape," at ",self.get_current_layer())
             # print(self.get_current_layer())
@@ -206,6 +232,7 @@ class custom_func(fault_injection):
             self.reset_current_layer()
 
 net = get_net()
+# net = get_other_net()
 
 with torch.no_grad():
     input_change = None #TODO
@@ -216,12 +243,53 @@ with torch.no_grad():
                             use_cuda=True
                         )
     # print(pfi_model_2.print_pytorchfi_layer_summary())
-    inj = pfi_model_2.declare_neuron_fi(function=pfi_model_2.flip_all)
+    # l = [module for module in net.modules() if not isinstance(module, torch.nn.Sequential)]
+    # print(l)
+    def traverse_model_set_hooks(model, layer_types="all"):
+        handles = []
+        output_shape = []
+        weights_shape = []
+        for layer in model.children():
+            # leaf node
+            if list(layer.children()) == []:
+                if "all" in layer_types:
+                    # handles.append(layer.register_forward_hook(self._save_output_size))
+                    print("layer is ",layer)
+                else:
+                    for i in layer_types:
+                        if isinstance(layer, i):
+                            # neurons
+                            handles.append(
+                                # layer.register_forward_hook(self._save_output_size)
+                            )
+                            output_shape.append(layer)
 
+                            # weights
+                            weights_shape.append(layer.weight.shape)
+            # unpack node
+            else:
+                subhandles, subbase, subweight = traverse_model_set_hooks(
+                    layer, layer_types
+                )
+                for i in subhandles:
+                    handles.append(i)
+                for i in subbase:
+                    output_shape.append(i)
+                for i in subweight:
+                    weights_shape.append(i)
+
+        return (handles, output_shape, weights_shape)
+    # handles, output_shape, weights_shape = fault_injection._traverse_model_set_hooks(net,"all")
+    # print("handles is ",handles)
+    # l = [module for module in net.children() if not isinstance(module, torch.nn.Sequential)]
+    # print(l)
+    inj = pfi_model_2.declare_neuron_fi(function=pfi_model_2.flip_all)
+    # sys.exit()
     inj_output = inj(input)
 
     inj_label,matches = net_out_to_bits(input,inj_output,target,graph=False)
     # , log=True, graph=True)
+    # print(pfi_model_2.print_pytorchfi_layer_summary())
     print("[Single Error] PytorchFI label from class:", inj_label)
     print("matches in inj_label is ",matches)
 

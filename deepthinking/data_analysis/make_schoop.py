@@ -19,19 +19,23 @@ from matplotlib import pyplot as plt
 from make_table import get_table
 
 def get_schoopy_plot_no_alpha_lines(table, error_bars=True):
-
+    print(type(table))
     if error_bars and "test_acc_sem" in table.keys():
         print("trigged if at 1")
-    print(table.head(10))
+    # print(table.head(10))
+    temp  =table[(table.alpha == 1.0)]
+    print("at beggining count is",len(temp.index))
+    print(temp.head(100))
+    # print(table.head(5))
     conditions = [
-        (table['model']=="dt_net_1d_width=400") & (table['alpha']==0),
-        (table['model']=="dt_net_1d_width=400")& (table['alpha']==1),
-        (table['model']=="dt_net_2d_width=128") & (table['alpha']==0),
-        (table['model']=="dt_net_2d_width=128")& (table['alpha']==1),
-        (table['model']=="dt_net_recall_1d_width=400")& (table['alpha']==0),
-        (table['model']=="dt_net_recall_1d_width=400")& (table['alpha']==1),
-        (table['model']=="dt_net_recall_2d_width=128")& (table['alpha']==0),
-        (table['model']=="dt_net_recall_2d_width=128")& (table['alpha']==1),
+        (table['model']=="dt_net_1d_width=400") & (table['alpha']==0.0),
+        (table['model']=="dt_net_1d_width=400")& (table['alpha']==1.0),
+        (table['model']=="dt_net_2d_width=128") & (table['alpha']==0.0),
+        (table['model']=="dt_net_2d_width=128")& (table['alpha']==1.0),
+        (table['model']=="dt_net_recall_1d_width=400")& (table['alpha']==0.0),
+        (table['model']=="dt_net_recall_1d_width=400")& (table['alpha']==1.0),
+        (table['model']=="dt_net_recall_2d_width=128")& (table['alpha']==0.0),
+        (table['model']=="dt_net_recall_2d_width=128")& (table['alpha']==1.0),
         (table['model']=="feedforward_net_1d_width=400"),
         (table['model']=="feedforward_net_2d_width=128"),
         (table['model']=="feedforward_net_recall_1d_width=400"),
@@ -41,12 +45,16 @@ def get_schoopy_plot_no_alpha_lines(table, error_bars=True):
     values = ["dt","dt_prog","dt","dt_prog","dt_recall","dt_recall_prog","dt_recall","dt_recall_prog","ff","ff","ff","ff"]
     table["graph_name"] = np.select(conditions, values)
     table = table[(table['graph_name'] == "dt")|(table['graph_name'] == "dt_prog")|(table['graph_name'] == "dt_recall")|(table['graph_name'] == "dt_recall_prog")|(table['graph_name'] == "ff")]
+    temp  =table[(table.alpha == 1.0)]
+    print("in middle count is",len(temp.index))
     fig, ax = plt.subplots(figsize=(20, 9))
-    print(table.head(10))
+    # print(table.head(10))
     models = set(table.graph_name)
     test_datas = set(table.test_data)
     alphas = set(table.alpha)
-
+    print(test_datas)
+                    #  x="test_iter",
+                                    #  x="max_iter",
     sns.lineplot(data=table,
                  x="test_iter",
                  y="test_acc_mean",
@@ -170,6 +178,43 @@ def get_schoopy_plot(table, error_bars=True):
     ax.fill_between([0, tr], [105, 105], alpha=0.3, label="Training Regime")
     return ax
 
+def get_schoopy_plot_alpha_colour(table, error_bars=True):
+    # if error_bars and "test_acc_sem" in table.keys():
+    #     print("triggered 3")
+    fig, ax = plt.subplots(figsize=(20, 9))
+
+    models = set(table.model)
+    test_datas = set(table.test_data)
+    alphas = set(table.alpha)
+
+    sns.lineplot(data=table,
+                 x="test_iter",
+                 y="test_acc_mean",
+                 hue="alpha",
+                 linewidth = 3.0,
+                 sizes=(2, 8),
+                 style="test_data" if len(test_datas) > 1 else None,
+                 palette="bright",
+                 dashes=True,
+                 units=None,
+                 legend="auto",
+                 ax=ax)
+
+    if error_bars and "test_acc_sem" in table.keys():
+        for model in models:
+            for test_data in test_datas:
+                for alpha in alphas:
+                    data = table[(table.model == model) &
+                                 (table.test_data == test_data) &
+                                 (table.alpha == alpha)]
+                    plt.fill_between(data.test_iter,
+                                     data.test_acc_mean - data.test_acc_sem,
+                                     data.test_acc_mean + data.test_acc_sem,
+                                     alpha=0.1, color="k")
+
+    tr = table.max_iters.max()  # training regime number
+    ax.fill_between([0, tr], [105, 105], alpha=0.3, label="Training Regime")
+    return ax
 
 
 def main():
@@ -191,6 +236,7 @@ def main():
     parser.add_argument("--xlim", type=float, nargs="+", default=None, help="x limits for plotting")
     parser.add_argument("--ylim", type=float, nargs="+", default=None, help="y limits for plotting")
     parser.add_argument("--line_thick_alpha", type=bool, default=False, help="makes the thickness of lines in graph proporional to alpha used")
+    parser.add_argument("--colour_by_alpha", type=bool, default=False, help="makes the colour of the lines relate to the alpha used")
     args = parser.parse_args()
 
     if args.plot_name is None:
@@ -218,6 +264,8 @@ def main():
     #print(table.round(2).to_markdown())
     if args.line_thick_alpha == True:
         ax = get_schoopy_plot(table)
+    elif args.colour_by_alpha == True:
+        ax = get_schoopy_plot_alpha_colour(table)
     else:
         # ax = trigger_if_plot(table)
         ax = get_schoopy_plot_no_alpha_lines(table)
@@ -229,13 +277,17 @@ def main():
     ax.set_xticks(x)
     ax.set_xticklabels(x, fontsize=34, rotation=37)
     if args.xlim is None:
+        # print("x mins is ",x.min())
         ax.set_xlim([x.min() - 0.5, x.max() + 0.5])
+        # ax.set_xlim([0,500.5]) #for mismatch sums
+        # ax.set_xlim([1.5, 130.5]) #for chess
         # ax.set_xlim([1.5, 100.5]) #for right figure 6
         # ax.set_xlim([1.5, 500.5]) #for figure 3
     else:
         ax.set_xlim([x.min() - 0.5,320])
     if args.ylim is None:
         ax.set_ylim([0, 103])
+        # ax.set_ylim([0, 25]) #for bad mazes
     else:
         ax.set_ylim(args.ylim)
     ax.set_xlabel("Test-Time Iterations", fontsize=34)
