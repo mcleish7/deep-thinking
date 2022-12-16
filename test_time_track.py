@@ -261,7 +261,7 @@ def count_to_correct(output,target):
     bestind = np.argmax(correct[50:])
     return bestind #returns the most accurate bit string and the number of bits which match with the target
 
-def graph_time(arr1,arr2):
+def graph_time(arr1,arr2, gtype=""):
     """
     Saves a line graph of the time to recover from a petubration for the two input arrays
     As a run for one Net takes 2 days, this method is used manuallly after collecting the data from the file it is stored in at run time
@@ -269,15 +269,22 @@ def graph_time(arr1,arr2):
     Args:
         arr1 (list): list of the times to recover of the Recall net being used
         arr2 (list): list of the times to recover of the Recall Progressive net being used
+        gtype (string, optional): changes the labels on the graph, default = ""
     """
     plt.clf()
     plt.plot(arr1, linewidth = '2.0', label = "Recall")
     plt.plot(arr2, linewidth = '2.0', label = "Recall Prog")
-    plt.title('Average number of changes per epoch')
-    # plt.title('Number of changes')
     plt.legend(loc="upper right")
-    # plt.yticks([0,26,5,10,25,15,20])
-    save_path = os.path.join("test_time","test_time_track.png")
+    if gtype == "mul":
+        plt.title('Number of changes after a one bit perturbation')
+        plt.xlabel("Index to be flipped")
+        plt.ylabel("Number of changes made to the bit string before recovering")
+        save_path = os.path.join("test_time","test_time_track_mul.png")
+    else:
+        plt.title('Average number of changes per epoch after a one bit perturbation')
+        plt.xlabel("Index to be flipped")
+        plt.ylabel("Average number of changes made per epoch")
+        save_path = os.path.join("test_time","test_time_track.png")
     plt.savefig(save_path)
 
 def density(num_diffences, correct, input, target):
@@ -351,8 +358,8 @@ def main():
             with open(file_path, 'r+') as f: # storing the data as we do not expect reach the end of the loop in the set runtime
                 f.write(f"for index: {index} density  list is {average_density}\n")
             
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
 
 #All of the output data is stored in text files, I have moved it to here to graph and so it can be seen in its raw format
 # Runs oftern take more than two days, hence the split in the lists
@@ -388,4 +395,5 @@ i=0
 while (i<len(l2)) and (i<len(ttj)):
     mul2.append(l2[i]*ttj[i])
     i+=1
-graph_time(mul1,mul2)
+graph_time(mul1,mul2,gtype="mul")
+graph_time(l1,l2)

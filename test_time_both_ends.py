@@ -193,7 +193,9 @@ def graph_time(arr1,arr2):
     plt.clf()
     plt.plot(arr1, linewidth = '2.0', label = "Recall")
     plt.plot(arr2, linewidth = '2.0', label = "Recall Prog")
-    plt.title('Iterations to recover')
+    plt.title('Iterations to recover from a multi bit perturbation')
+    plt.xlabel("Index to be flipped, both ith and (47-i)th index flipped")
+    plt.ylabel("Number of iterations to recover")
     plt.legend(loc="upper right")
     plt.yticks([0,5,10,25,15,20])
     save_path = os.path.join("test_time","test_time_both_ends.png")
@@ -241,8 +243,8 @@ def main():
             with open(file_path, 'r+') as f: # storing the data as we do not expect reach the end of the loop in the set runtime
                 f.write(f"for index: {index} the time array is {time}")
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
 
 # All of the output data is stored in text files, I have moved it to here to graph and so it can be seen in its raw format
 # Runs oftern take more than two days, hence the split in the lists

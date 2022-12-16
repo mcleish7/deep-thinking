@@ -14,7 +14,7 @@ from datetime import datetime
 
 import torch
 from icecream import ic
-from torch.optim import SGD, Adam, AdamW
+from torch.optim import SGD, Adam, AdamW, RAdam
 from torch.optim.lr_scheduler import MultiStepLR, CosineAnnealingLR
 
 import deepthinking.models as models
@@ -96,6 +96,8 @@ def get_optimizer(optim_args, model_args, net, state_dict):
         optimizer = Adam(all_params, lr=lr, weight_decay=2e-4)
     elif optimizer_name == "adamw":
         optimizer = AdamW(all_params, lr=lr, weight_decay=2e-4)
+    elif optimizer_name == "radam":
+        optimizer = RAdam(all_params, lr=lr, weight_decay=2e-4)
     else:
         raise ValueError(f"{ic.format()}: Optimizer choise of {optimizer_name} not yet implmented.")
 

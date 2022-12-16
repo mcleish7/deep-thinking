@@ -11,4 +11,6 @@
 
 source /etc/profile.d/modules.sh
 module load CUDA
-srun python3.9 /dcs/large/u2004277/deep-thinking/test_time.py
+srun python3.9 /dcs/large/u2004277/deep-thinking/test_time.py --which_net=non-prog
+
+srun python3.9 /dcs/large/u2004277/deep-thinking/test_time.py --which_net=prog

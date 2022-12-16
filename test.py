@@ -262,27 +262,38 @@ def plot_maze(inputs, targets, save_str):
     plt.savefig(save_str, bbox_inches="tight")
     plt.close()
   
-input, target, a = get_data_maze()
-inputnp = np.load("batch_reproduce_5/data/maze_data_test_13/inputs.npy")[1]
-target = np.load("batch_reproduce_5/data/maze_data_test_13/solutions.npy")[1]
-print("input is ",input.shape)
-print("target is ",target.shape)
-with np.printoptions(threshold=np.inf):
-  torch.set_printoptions(profile="full")
-  # print(input[0,1])
-  torch.set_printoptions(profile="default")
+# input, target, a = get_data_maze()
+# inputnp = np.load("batch_reproduce_5/data/maze_data_test_13/inputs.npy")[1]
+# target = np.load("batch_reproduce_5/data/maze_data_test_13/solutions.npy")[1]
+# print("input is ",input.shape)
+# print("target is ",target.shape)
+# with np.printoptions(threshold=np.inf):
+#   torch.set_printoptions(profile="full")
+#   # print(input[0,1])
+#   torch.set_printoptions(profile="default")
 
-fig, axs = plt.subplots(1, 5, figsize=(10, 5))
-axs[0].imshow(input.cpu().squeeze().permute(1, 2, 0))
-sns.heatmap(target, ax=axs[1], cbar=False, linewidths=0, square=True, rasterized=True)
-print("shape is ",input.cpu().squeeze().permute(1, 2, 0).shape)
-print("shape no perm is ",input.cpu().squeeze().shape)
-print("shape no perm 0 is ",input.cpu().squeeze()[0].shape)
-axs[2].imshow(input.cpu().squeeze()[0],cmap='Greys')
-axs[3].imshow(input.cpu().squeeze()[1],cmap='Greys')
-axs[4].imshow(input.cpu().squeeze()[2],cmap='Greys')
-plt.tight_layout()
-plt.savefig("test_1", bbox_inches="tight")
-plt.close()
+# fig, axs = plt.subplots(1, 5, figsize=(10, 5))
+# axs[0].imshow(input.cpu().squeeze().permute(1, 2, 0))
+# sns.heatmap(target, ax=axs[1], cbar=False, linewidths=0, square=True, rasterized=True)
+# print("shape is ",input.cpu().squeeze().permute(1, 2, 0).shape)
+# print("shape no perm is ",input.cpu().squeeze().shape)
+# print("shape no perm 0 is ",input.cpu().squeeze()[0].shape)
+# axs[2].imshow(input.cpu().squeeze()[0],cmap='Greys')
+# axs[3].imshow(input.cpu().squeeze()[1],cmap='Greys')
+# axs[4].imshow(input.cpu().squeeze()[2],cmap='Greys')
+# plt.tight_layout()
+# plt.savefig("test_1", bbox_inches="tight")
+# plt.close()
 
 # plot_maze(input,target,"testing")
+
+c = np.load("compare_time.npy")
+c = np.transpose(c)[:35]
+print(c.shape)
+ax = sns.heatmap(c, linewidth=0.5)
+ax.invert_yaxis()
+ax.set(xlabel='index of bit flipped', ylabel='iteration after peturbation', title="Average number of bits different")
+plt.savefig("test_heat", bbox_inches="tight")
+
+c = np.load("test_noise_outputs/test_maze_mismatch_averages.npy")
+print(c.shape)

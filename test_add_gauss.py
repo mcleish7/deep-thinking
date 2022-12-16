@@ -11,18 +11,18 @@ import matplotlib.pyplot as plt
 import argparse
 
 
-def get_net(device, type="prog"):
+def get_net(device, which_net="prog"):
     """
     Returns the DT recall (progressive) network in evaluation mode
 
     Args:
-        type (str, optional): Set to prog if want the progressive recall network. Defaults to "prog".
+        which_net (str, optional): Set to prog if want the progressive recall network. Defaults to "prog".
         device (str): the device to store the network on
 
     Returns:
         torch.nn: the neural net
     """
-    if type == "prog": 
+    if which_net == "prog": 
         name = "enraged-Jojo" # Jojo => recall, alpha =1 
     else:
         name = "peeling-Betzaida" # Betz => recall, alpha =0
@@ -198,15 +198,19 @@ def graph_time(arr1,arr2):
     Saves a line graph of the time to recover from a petubration for the two input arrays
 
     Args:
-        arr1 (list): list of the times to recover of the Recall net being used
-        arr2 (list): list of the times to recover of the Recall Progressive net being used
+        arr1 (list/np.array): list of the times to recover of the Recall net being used
+        arr2 (list/np.array): list of the times to recover of the Recall Progressive net being used
     """
     plt.clf()
-    plt.plot(arr1, linewidth = '1.0', label = "Recall")
-    plt.plot(arr2, linewidth = '1.0', label = "Recall Prog")
-    plt.title('Number of iterations to solution \n with Gaussian noise added')
+    arr1 = np.asarray(arr1)*(100/48) # to make percentages
+    arr2 = np.asarray(arr2)*(100/48)
+    plt.plot(arr2, linewidth = '1.0', label = "Recall")
+    plt.plot(arr1, linewidth = '1.0', label = "Recall Prog")
+    plt.title('Number of iterations to solution \n with Gaussian noise added at iterations 1 and 2')
+    plt.xlabel("Test-Time iterations")
+    plt.ylabel("Accuracy")
     plt.legend(loc="lower right")
-    plt.ylim([0, 50])
+    plt.ylim([0, 101])
     save_path = os.path.join("test_time","test_add_gauss.png")
     plt.savefig(save_path)
 
@@ -266,4 +270,20 @@ mean_corrects_2 = np.mean(corrects_2, axis=0)
 
 mean_corrects_1 = np.insert(mean_corrects_1, 0, 0) # adds 0 to the start
 mean_corrects_2 = np.insert(mean_corrects_2, 0, 0)
+print(mean_corrects_1)
+print(mean_corrects_2)
 graph_time(mean_corrects_1,mean_corrects_2)
+
+
+mean_corrects_1 = [ 0., 25.0679, 26.6453, 28.1859, 29.6425, 31.1056, 32.5796, 34.0042, 35.2958,\
+ 36.571,  37.7723, 38.9306, 40.0978, 41.2588, 42.434,  43.563,  44.576,  45.4299,\
+ 46.2983, 47.0347, 47.3775, 47.7029, 47.8993, 47.9455, 47.9824, 47.9913, 47.9954,\
+ 47.9984, 47.9985, 47.9993, 47.9996, 47.9998, 47.9999, 47.9999, 48., 47.9999,\
+ 48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48.]
+
+mean_corrects_2 = [0., 24.3598, 24.8983, 25.5996, 26.4618, 27.3484, 28.2358, 29.157,  30.0687,\
+ 30.9608, 31.8518, 32.729, 33.6329, 34.5249, 35.4035, 36.3208, 37.2139, 38.1044,\
+ 38.9735, 39.8351, 40.6863, 41.5078, 42.362,  43.2369, 44.0855, 44.9111, 45.678,\
+ 46.3546, 46.9115, 47.3548, 47.6744, 47.8672, 47.9606, 47.9923, 47.9992, 47.9998,\
+ 48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48., 48., 48., 48., 48., 48.,48., 48., 48., 48.]
+# both length 301
