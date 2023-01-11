@@ -24,6 +24,7 @@ from torch.utils.tensorboard import SummaryWriter
 
 import deepthinking as dt
 import deepthinking.utils.logging_utils as lg
+from torchvision import models
 CUDA_LAUNCH_BLOCKING=1
 
 # Ignore statements for pylint:
@@ -54,6 +55,8 @@ def main(cfg: DictConfig):
     net, start_epoch, optimizer_state_dict = dt.utils.load_model_from_checkpoint(cfg.problem.name,
                                                                                  cfg.problem.model,
                                                                                  device)
+    model = models.vgg16()
+    print(model)
     pytorch_total_params = sum(p.numel() for p in net.parameters())
     log.info(f"This {cfg.problem.model.model} has {pytorch_total_params/1e6:0.3f} million parameters.")
     log.info(f"Training will start at epoch {start_epoch}.")

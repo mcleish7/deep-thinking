@@ -3,8 +3,8 @@ defaults:
   - model: dt_net_recall_2d
 
 name: graphs
-test_data: 33
-train_data: 9
+test_data: 10
+train_data: 10
 
 model:
   width: 128

@@ -65,9 +65,10 @@ class DTNet(nn.Module):
             self.width = planes * block.expansion
         return nn.Sequential(*layers)
 
-    def forward(self, x, iters_to_do=300, interim_thought=None, **kwargs):
+    def forward(self, x, iters_to_do=800, interim_thought=None, **kwargs):
         # print("x shape is ",x.shape)
         initial_thought = self.projection(x)
+        # print("inital thought shape is ",initial_thought.shape)
         # print("initial thought shape is ",initial_thought.shape)
 
         if interim_thought is None:
@@ -83,6 +84,8 @@ class DTNet(nn.Module):
             all_outputs[:, i] = out
 
         if self.training:
+            # print("out shape is ", out.shape)
+            # print("interim though shape is", interim_thought.shape)
             return out, interim_thought
 
         return all_outputs

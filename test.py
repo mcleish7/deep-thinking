@@ -287,13 +287,80 @@ def plot_maze(inputs, targets, save_str):
 
 # plot_maze(input,target,"testing")
 
-c = np.load("compare_time.npy")
-c = np.transpose(c)[:35]
-print(c.shape)
-ax = sns.heatmap(c, linewidth=0.5)
-ax.invert_yaxis()
-ax.set(xlabel='index of bit flipped', ylabel='iteration after peturbation', title="Average number of bits different")
-plt.savefig("test_heat", bbox_inches="tight")
+# c = np.load("compare_time.npy")
+# c = np.transpose(c)[:35]
+# print(c.shape)
+# ax = sns.heatmap(c, linewidth=0.5)
+# ax.invert_yaxis()
+# ax.set(xlabel='index of bit flipped', ylabel='iteration after peturbation', title="Average number of bits different")
+# plt.savefig("test_heat", bbox_inches="tight")
 
-c = np.load("test_noise_outputs/test_maze_mismatch_averages.npy")
-print(c.shape)
+# c = np.load("test_noise_outputs/test_maze_mismatch_averages.npy")
+# print(c.shape)
+def imshow(img):
+    npimg = img.numpy()
+    plt.imshow(np.transpose(npimg, (1, 2, 0)))
+    plt.show()
+import torchvision.transforms as transforms
+transform = transforms.Compose(
+    [transforms.ToTensor(),
+     transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+import torchvision
+import sys
+trainset = torchvision.datasets.CIFAR10(root="./data", train=True, download=False, transform=transform)
+# print(type(trainset))
+# i,j = trainset[1]
+# print(type(i))
+# print(type(j))
+# trainloader = torch.utils.data.DataLoader(trainset, batch_size=1, shuffle=True, num_workers=2)
+# for i, data in enumerate(trainloader, 0):
+#     # get the inputs; data is a list of [inputs, labels]
+#     inputs, labels = data
+#     print("input type is ", inputs.shape)
+#     print("label type is ",labels.shape)
+#     sys.exit()
+preds = torch.rand(500,1)
+im = torch.rand(500,1)
+
+im_loss = torch.pow(preds[:, -1:] - im[:, None, :], 2).mean(dim=-1).mean(dim=-1).mean()
+loss = im_loss.mean()
+# print("preds is ",preds)
+# print("im is ",im)
+# print("shape preds[:, -1:] is ",preds[:, -1:]) # takes the last column of preds i.e. the last ouput of the network when they are all batches together
+# print("shape im[:, None, :] is ",im[:, None, :]) # puts each row into another array so it is an array of an array
+# # print("minus is ",(preds[:, -1:] - im[:, None, :])) #is shape [5,5,5], takes each row of im and subracts the value of the coumn of im, giving a [5,5] then for each row is 5 times
+# print("minus is ",(preds[:, -1:] - im[:, None, :]).mean(dim=-1)) # shape [5,5], takes mean along each row
+# print("shape of loss is ", im_loss) # [5], takes mean along each row again
+
+# print("shape preds[:, -1:] is ",preds[:, -1:].shape) # takes the last column of preds i.e. the last ouput of the network when they are all batches together
+# print("shape im[:, None, :] is ",im[:, None, :].shape) 
+# print("shape of loss im is ", im_loss) # [5], takes mean along each row again
+# print("shape of loss is ",loss)
+
+def graph_maze_mismatch():
+    arr1= np.load("AvonTests/noise_maze_array_part_1.npy")
+    arr2 = np.load("AvonTests/noise_maze_array.npy")
+    arr = np.concatenate((arr1,arr2))
+    # arr = arr.T
+    plt.clf()
+    alphas = ["0.01","0.1","0.2","0.3","0.4","0.5","0.6","0.7","0.8","0.9"]
+    denom = 15376.0
+    # print(arr.shape[0])
+    # sys.exit()
+    for i in range(0,arr.shape[0]):
+        run = arr[i]
+        # print("run is type",type(run))
+        # print(run.shape)
+        plt.plot(run*(100.0/denom), linewidth = '1.5', label = alphas[i])
+    plt.title('Accuracy over time when features are swapped')
+    plt.xlabel('Test-Time iterations')
+    plt.ylabel('Accuracy')
+    plt.legend(loc="lower right")
+    # file_name = f"maze_mismatch.png"
+    file_name = "rough.png"
+    save_path = os.path.join("test_noise_outputs",file_name)
+    plt.savefig(save_path, dpi=500)
+# print(arr.shape)
+# plt.plot(arr.T)
+# plt.savefig("rough", bbox_inches="tight")
+graph_maze_mismatch()

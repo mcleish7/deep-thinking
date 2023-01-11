@@ -1,0 +1,10 @@
+defaults:
+  - hyp: cifar10_default
+  - model: dt_net_recall_2d
+
+name: cifar10
+test_data: 33
+train_data: 9
+
+model:
+  width: 128

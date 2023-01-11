@@ -22,6 +22,8 @@ from .mazes_data import prepare_maze_loader
 from .prefix_sums_data import prepare_prefix_loader
 from .chess_data import prepare_chess_loader
 from .graph_data import prepare_graph_loader
+from .cifar10_data import prepare_cifar10_loader
+from .graph_on_fly import prepare_identity_graph_loader
 from .. import adjectives, names
 
 from .warmup import ExponentialWarmup, LinearWarmup
@@ -53,17 +55,28 @@ def get_dataloaders(problem_args):
                                     test_batch_size=problem_args.hyp.test_batch_size,
                                     train_data=problem_args.train_data,
                                     test_data=problem_args.test_data)
+    elif problem_args.name == "cifar10":
+        return prepare_cifar10_loader(train_batch_size=problem_args.hyp.train_batch_size,
+                                    test_batch_size=problem_args.hyp.test_batch_size,
+                                    train_data=problem_args.train_data,
+                                    test_data=problem_args.test_data)
     elif problem_args.name == "graphs":
-        return prepare_graph_loader(train_batch_size=problem_args.hyp.train_batch_size,
-                                   test_batch_size=problem_args.hyp.test_batch_size,
-                                   train_data=problem_args.train_data,
-                                   test_data=problem_args.test_data)
+        return prepare_identity_graph_loader(train_batch_size=problem_args.hyp.train_batch_size,
+                                     test_batch_size=problem_args.hyp.test_batch_size,
+                                     split=problem_args.train_data,
+                                     rank=problem_args.test_data)
+    # elif problem_args.name == "graphs":
+    #     return prepare_graph_loader(train_batch_size=problem_args.hyp.train_batch_size,
+    #                                test_batch_size=problem_args.hyp.test_batch_size,
+    #                                train_data=problem_args.train_data,
+    #                                test_data=problem_args.test_data)
     else:
         raise ValueError(f"Invalid problem spec. {problem_args.name}")
 
 
 def get_model(model, width, max_iters, in_channels=3):
     model = model.lower()
+    print("model is", model)
     net = getattr(models, model)(width=width, in_channels=in_channels, max_iters=max_iters)
     return net
 

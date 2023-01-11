@@ -1,4 +1,4 @@
-alpha: 1.0
+alpha: 0.01
 clip:
 epochs: 50
 lr: 0.001
@@ -9,9 +9,9 @@ lr_schedule:
 lr_throttle: True
 optimizer: adam
 save_period: -1
-test_batch_size: 64
-test_mode: gnn
-train_batch_size: 64
-train_mode: gnn
+test_batch_size: 20
+test_mode: default
+train_batch_size: 20
+train_mode: progressive
 val_period: 20
 warmup_period: 10

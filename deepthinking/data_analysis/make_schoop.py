@@ -33,12 +33,14 @@ def get_schoopy_plot_no_alpha_lines(table, error_bars=True):
         (table['model']=="dt_net_1d_width=400")& (table['alpha']==1.0),
         (table['model']=="dt_net_2d_width=128") & (table['alpha']==0.0),
         (table['model']=="dt_net_2d_width=128")& (table['alpha']==1.0),
+        (table['model']=="dt_net_2d_width=128")& (table['alpha']==0.01),
         (table['model']=="dt_net_2d_width=512") & (table['alpha']==0.0),
         (table['model']=="dt_net_2d_width=512")& (table['alpha']==1.0),
         (table['model']=="dt_net_recall_1d_width=400")& (table['alpha']==0.0),
         (table['model']=="dt_net_recall_1d_width=400")& (table['alpha']==1.0),
         (table['model']=="dt_net_recall_2d_width=128")& (table['alpha']==0.0),
         (table['model']=="dt_net_recall_2d_width=128")& (table['alpha']==1.0),
+        (table['model']=="dt_net_recall_2d_width=128")& (table['alpha']==0.01),
         (table['model']=="dt_net_recall_2d_width=512")& (table['alpha']==0.0),
         (table['model']=="dt_net_recall_2d_width=512")& (table['alpha']==1.0),
         (table['model']=="feedforward_net_1d_width=400"),
@@ -47,7 +49,7 @@ def get_schoopy_plot_no_alpha_lines(table, error_bars=True):
         (table['model']=="feedforward_net_recall_2d_width=128")
     ]
     
-    values = ["dt","dt_prog","dt","dt_prog","dt","dt_prog","dt_recall","dt_recall_prog","dt_recall","dt_recall_prog","dt_recall","dt_recall_prog","ff","ff","ff","ff"]
+    values = ["dt","dt_prog","dt","dt_prog","dt_prog","dt","dt_prog","dt_recall","dt_recall_prog","dt_recall","dt_recall_prog","dt_recall_prog","dt_recall","dt_recall_prog","ff","ff","ff","ff"]
     table["graph_name"] = np.select(conditions, values)
     table = table[(table['graph_name'] == "dt")|(table['graph_name'] == "dt_prog")|(table['graph_name'] == "dt_recall")|(table['graph_name'] == "dt_recall_prog")|(table['graph_name'] == "ff")]
     temp  =table[(table.alpha == 1.0)]
@@ -220,7 +222,7 @@ def get_schoopy_plot_alpha_colour(table, error_bars=True):
                  linewidth = 3.0,
                  sizes=(2, 8),
                  style="test_data" if len(test_datas) > 1 else None,
-                 palette='bright',#'colorblind',#sns.color_palette("tab10"),#"bright",
+                 palette='bright',#colorblind',#sns.color_palette("tab10"),#"bright",
                  dashes=True,
                  units=None,
                  legend="auto",
@@ -242,9 +244,8 @@ def get_schoopy_plot_alpha_colour(table, error_bars=True):
     ax.fill_between([0, tr], [105, 105], alpha=0.3, label="Training Regime")
     return ax
 
-def get_schoopy_plot_colour_all_same(table, error_bars=True):
-    # if error_bars and "test_acc_sem" in table.keys():
-    #     print("triggered 3")
+def plot_by_train_data(table, error_bars=True):
+    print(table.columns)
     fig, ax = plt.subplots(figsize=(20, 9))
 
     models = set(table.model)
@@ -254,27 +255,15 @@ def get_schoopy_plot_colour_all_same(table, error_bars=True):
     sns.lineplot(data=table,
                  x="test_iter",
                  y="test_acc_mean",
-                 hue="model",
-                 linewidth = 3.0,
+                 hue="train_data",
+                #  size="alpha",
                  sizes=(2, 8),
-                 style="test_data" if len(test_datas) > 1 else None,
-                #  palette="bright",
+                #  style="test_data" if len(test_datas) > 1 else None,
+                 palette='colorblind',
                  dashes=True,
                  units=None,
                  legend="auto",
                  ax=ax)
-
-    # if error_bars and "test_acc_sem" in table.keys():
-    #     for model in models:
-    #         for test_data in test_datas:
-    #             for alpha in alphas:
-    #                 data = table[(table.model == model) &
-    #                              (table.test_data == test_data) &
-    #                              (table.alpha == alpha)]
-    #                 plt.fill_between(data.test_iter,
-    #                                  data.test_acc_mean - data.test_acc_sem,
-    #                                  data.test_acc_mean + data.test_acc_sem,
-    #                                  alpha=0.1, color="k")
 
     tr = table.max_iters.max()  # training regime number
     ax.fill_between([0, tr], [105, 105], alpha=0.3, label="Training Regime")
@@ -302,7 +291,7 @@ def main():
     parser.add_argument("--line_thick_alpha", type=bool, default=False, help="makes the thickness of lines in graph proporional to alpha used")
     parser.add_argument("--colour_by_alpha", type=bool, default=False, help="makes the colour of the lines relate to the alpha used")
     parser.add_argument('--folders', nargs='+', help='the folders the models are in', required=True)
-    parser.add_argument("--colour_all_same", type=bool, default=False, help="colours all lines the same colour")
+    parser.add_argument("--colour_by_train_range", type=bool, default=False, help="colours by the training range of the data")
     args = parser.parse_args()
 
     if args.plot_name is None:
@@ -363,14 +352,14 @@ def main():
         ax = get_schoopy_plot(table)
     elif args.colour_by_alpha == True:
         ax = get_schoopy_plot_alpha_colour(table)
-    elif args.colour_all_same ==True:
-        ax = get_schoopy_plot_colour_all_same(table)
+    elif args.colour_by_train_range ==True:
+        ax = plot_by_train_data(table)
     else:
         # ax = trigger_if_plot(table)
         ax = get_schoopy_plot_no_alpha_lines(table)
 
     # ax.legend(fontsize=26, loc="upper left", bbox_to_anchor=(1.0, 0.8))
-    ax.legend(fontsize=26, loc="upper left", bbox_to_anchor=(1.0, 1.0))
+    ax.legend(loc="upper left", bbox_to_anchor=(1.0, 1.0), fontsize=26)
     x_max = table.test_iter.max()
     x = np.arange(20, x_max + 1, 10 if (x_max <= 100) else 100)
     ax.tick_params(axis="y", labelsize=34)
@@ -393,6 +382,7 @@ def main():
             ax.set_xlim([1.5, 500.5]) #for sums
         else:
             ax.set_xlim([1.5, 130.5]) #for chess
+            # ax.set_xlim([1.5, 300.5]) #for mazes
     else:
         ax.set_xlim([x.min() - 0.5,320])
     if args.ylim is None:
@@ -403,7 +393,7 @@ def main():
     ax.set_xlabel("Test-Time Iterations", fontsize=34)
     ax.set_ylabel("Accuracy (%)", fontsize=34)
     ax.set_title(plot_title, fontsize=34)
-    ax.set_title("Prefix Sums with 0.01 Learning Rate Factor (gamma)", fontsize=34)
+    ax.set_title("Figure 4", fontsize=34)
     ax.spines["right"].set_visible(False)
     ax.spines["top"].set_visible(False)
     plt.tight_layout()

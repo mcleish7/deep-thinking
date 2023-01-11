@@ -14,6 +14,7 @@ import torch
 from icecream import ic
 from tqdm import tqdm
 import sys
+import numpy as np
 
 # Ignore statements for pylint:
 #     Too many branches (R0912), Too many statements (R0915), No member (E1101),
@@ -29,12 +30,16 @@ def test(net, loaders, mode, iters, problem, device):
             accuracy = test_default(net, loader, iters, problem, device)
         elif mode == "max_conf":
             accuracy = test_max_conf(net, loader, iters, problem, device)
+        elif mode == "gnn":
+            accuracy = test_gnn(net, loader, iters, problem, device)
         else:
             raise ValueError(f"{ic.format()}: test_{mode}() not implemented.")
         accs.append(accuracy)
     return accs
 
 def get_predicted(inputs, outputs, problem):
+    if (problem == "graphs"):
+        return outputs
     outputs = outputs.clone()
     predicted = outputs.argmax(1)
     predicted = predicted.view(predicted.size(0), -1)
@@ -108,6 +113,89 @@ def test_default(net, testloader, iters, problem, device):
         ret_acc[ite] = accuracy[ite-1].item()
     return ret_acc
 
+def test_gnn(net, testloader, iters, problem, device):
+    # print("in gnn test")
+    max_iters = max(iters)
+    net.eval()
+    corrects = torch.zeros(max_iters).to(device)
+    total = 0
+    dists = []
+    print("testloader has length, ",len(testloader.dataset.indices))
+    # print("dataloader 0 type is ", testloader[0])
+    with torch.no_grad():
+        for inputs in testloader:
+            print("ran loop")
+            inputs = inputs.to(device)
+            targets = inputs.y.to(device)
+            # print("type input is ", type(inputs))
+            preds = []
+            state = None
+            for i in range(max_iters):
+                pred, state = net(inputs, state)
+                preds.append(pred)
+
+            preds = torch.stack(preds, dim=0)
+            # print("preds shape is ",preds.shape)
+            # print("target shape is ", targets.shape)
+            dist = (preds - targets[None, :])
+            # print("dist shape is ",dist.shape)
+            dist = torch.pow(dist, 2).mean(dim=-1) # square error
+            # print("dist shape mean is ",dist.shape)
+            # print("min is ",(torch.min(dist)))
+            dist = dist.mean(dim=-1) # mean square error
+            # print("dist is", dist)
+            # print("dist shape mean mean is ",dist.shape)
+            # print("min is ",(torch.min(dist)))
+            dists.append(dist)
+            # sys.exit()
+            # n = dist.size(1)
+
+
+            # # all_outputs = torch.stack(preds, dim=1)
+            # for i in range(all_outputs.size(1)):
+            #     outputs = all_outputs[:, i]
+            #     # print("type outputs is ", type(outputs))
+            #     # print("type targets is ", type(targets))
+            #     # print("outputs shape is ",outputs.shape)
+            #     # print("inputs x shape is ",inputs.x.shape)
+            #     # print("inputs edge index shape is ",inputs.edge_index.shape)
+            #     predicted = outputs.view(outputs.size(0), -1).to(device)
+            #     # print("predicted shape is ",predicted.shape)
+            #     targets = targets.view(targets.size(0), -1)
+            #     # print("targets shape is ",targets.shape)
+
+            #     # print("targets is ",targets)
+            #     # print("predicted is ", predicted)
+            #     # difference = targets-predicted
+            #     # print(difference.shape)
+            #     # print("difference is ",difference)
+            #     # print("norm is ",torch.linalg.norm(targets-predicted).item())
+            #     corrects[i] += torch.amin(predicted == targets, dim=[1]).sum().item()
+
+            # total += targets.size(0)
+
+    # accuracy = 100.0 * corrects / total
+    # print(dists)
+    # print("accuracy shape is ",torch.stack(dists, dim=0).shape)
+    # print(torch.stack(dists, dim=0))
+    accuracy = torch.stack(dists, dim=0).mean(dim=0)
+    # print("meand shape is ", accuracy.shape)
+    # sys.exit()
+    # print("dists shape is ",(dists.shape))
+    # accuracy = torch.mean(dists, dim=0)
+    # print("accuracy shape is ",(accuracy.shape))
+    # return corrects
+    # accuracy = corrects
+    
+    # print(corrects[0].item())
+    ret_acc = {}
+    for ite in iters:
+        ret_acc[ite] = accuracy[ite-1].item()
+        # ret_acc[ite] = corrects[0].item()
+    # ret_acc[0] = accuracy.item()
+    # print(ret_acc)
+    # sys.exit()
+    return ret_acc
 
 def test_max_conf(net, testloader, iters, problem, device):
     max_iters = max(iters)

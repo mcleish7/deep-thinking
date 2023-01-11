@@ -257,7 +257,10 @@ def graph_time(arr0,arr01,arr1,arr2,arr3,arr4,arr5,arr6,arr7,arr8,arr9,arr10):
     plt.xlim([-0.5,45])
     # plt.yticks([0,26,5,10,25,15,20])
     plt.yticks([3,5,10,15,20])
-    save_path = os.path.join("test_time","test_mismatch_time_correctness_2.png")
+    save_path = os.path.join("test_time","test_mismatch_time_correctness_3.png")
+    plt.xlabel("Index Flipped")
+    plt.ylabel("Iterations to Recover")
+    plt.title("Number of iterations to recover from a single bit flip")
     plt.savefig(save_path)
 
 # All of the output data is stored in text files, I have moved it to here to graph and so it can be seen in its raw format

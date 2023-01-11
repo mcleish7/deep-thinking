@@ -82,8 +82,8 @@ def get_table(filepath, disp_max, disp_min, filter_at=None, max_iters_list=None,
         df = pd.concat(frames)
 
     # df = df[df.model_path.str.contains("best")]
-    index = ["model", "test_data", "max_iters", "alpha", "test_mode", "test_iter"]
-
+    # index = ["model", "test_data", "max_iters", "alpha", "test_mode", "test_iter"]
+    index = ["model", "test_data","train_data", "max_iters", "alpha", "test_mode", "test_iter"]
     values = ["mean", "sem"]
     if disp_max:
         values.append("max")

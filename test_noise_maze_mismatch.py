@@ -110,8 +110,8 @@ class custom_func(fault_injection):
         super().__init__(model, batch_size, **kwargs)
 
     def flip_all(self, module, input, output): #output is a tuple of length 1, with index 0 holding the current tensor
-        layer_from = 50 #for small GPU's use 25 or less, for larger ones we can use the full result of 50
-        layer_to = 51
+        layer_from = 300 #for small GPU's use 25 or less, for larger ones we can use the full result of 50
+        layer_to = 301
         if (self.get_current_layer() >= (layer_from*7)) and (self.get_current_layer() <= ((layer_to*7)+1)): # a nice observation here is the direct relation ot the size of the recurrent module
             output[:] = torch.zeros(output.shape) # puts all outputs from the layer to 0
         self.updateLayer()
@@ -147,6 +147,9 @@ def graph_helper(output,input,target):
     return correct
 
 def graph_maze_mismatch(runs, input, target, n, size):
+    arr1= np.load("AvonTests/noise_maze_array_part_1.npy")
+    arr2 = np.load("AvonTests/noise_maze_array.npy")
+    arr = np.concatenate((arr1,arr2))
     plt.clf()
     alphas = ["0.01","0.1","0.2","0.3","0.4","0.5","0.6","0.7","0.8","0.9"]
     denom = 1024.0
@@ -220,7 +223,7 @@ def main_module(number=100, input_size = 13):
 def main():
     # ns = [10,50,100,200,300,400,500,600,700,800,900,1000,1100,1200,1300,1400,1500,1600,1700,1800,1900,2000]
     # ns = [10,50,100,200,300,400,500]
-    ns = [5000,10000]
+    ns = [10000]
     maze_dim = 59
     for n in ns:
         main_module(number = n, input_size=maze_dim)
