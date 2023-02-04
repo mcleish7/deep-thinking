@@ -7,8 +7,8 @@ import pandas as pd
 import dataframe_image as dfi
 
 # filepaths = ["outputs/AvonTests/","../batch_reproduce_2/outputs/testing_default","../batch_reproduce_2.2/outputs/testing_default","../batch_reproduce_2.3/outputs/testing_default"]
-name = "chess_AA_hard"
-filepaths = ["chess_AA_test_hard"]
+name = "maze_75"
+filepaths = ["test_mazes_75"]
 # name = "test_prefix_alpha_2"
 # filepaths = ["../lr_analysis/outputs/test_mazes_schedule_1"]
 # name = "maze_merged_printer"

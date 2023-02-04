@@ -6,10 +6,10 @@ solutions_path = os.path.join(folder_name, "solutions.npz")
 inputs_np = np.load(inputs_path)['arr_0']
 targets_np = np.load(solutions_path)['arr_0']
 
-print(inputs_np.shape)
+# print(inputs_np.shape)
 # print(inputs_np[0])
 
-print(targets_np.shape)
+# print(targets_np.shape)
 # print(targets_np[10])
 
 
@@ -31,3 +31,9 @@ print(targets_np.shape)
 # arr3 = np.append([arr],[arr2], axis=0)
 # print(arr3.shape)
 # print(arr3)
+
+# import dm-clrs as clrs
+import clrs
+help()
+help()
+help(clrs)

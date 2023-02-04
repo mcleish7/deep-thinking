@@ -393,7 +393,7 @@ def main():
     ax.set_xlabel("Test-Time Iterations", fontsize=34)
     ax.set_ylabel("Accuracy (%)", fontsize=34)
     ax.set_title(plot_title, fontsize=34)
-    ax.set_title("Figure 4", fontsize=34)
+    ax.set_title("Mazes with Train Batch Size 75", fontsize=34)
     ax.spines["right"].set_visible(False)
     ax.spines["top"].set_visible(False)
     plt.tight_layout()

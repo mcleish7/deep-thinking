@@ -6,7 +6,6 @@ from scipy.sparse.csgraph import connected_components
 from scipy.sparse import csr_matrix
 from scipy.sparse.csgraph import shortest_path
 import random
-import sys
 
 
 def extract(a, t, x_shape):
@@ -231,32 +230,17 @@ class ShortestPath(data.Dataset):
         else:
             rank = self.rank
 
-        graph = np.random.uniform(0, 1, size=[rank, rank]) #weights
-        # print("graph shape is ",graph.shape)
+        graph = np.random.uniform(0, 1, size=[rank, rank])
         graph = graph + graph.transpose()
         np.fill_diagonal(graph, 0) # can move to self
-        # print(graph)
-        # sys.exit()
-        graph_dist, graph_predecessors = shortest_path(csgraph=csr_matrix(graph), unweighted=False, directed=False, return_predecessors=True, method="FW")
-        # print(type(graph_dist))
-        # print("------------------------------------------------")
-        # print(type(graph_predecessors))
-        # print(graph_predecessors)#[0:1])
-        # print("++++++++++++++++++++++++++++++++++++++++++++++++")
-        # print(graph_dist)#[0:1])
-        # print("end iter")
-        # sys.exit()
-        # print("graph dist shape is",graph_dist.shape)
-        avg = np.mean(np.mean(graph_dist))
-        # print("avg is",avg)
+
+        graph_dist, graph_predecessors = shortest_path(csgraph=csr_matrix(graph), unweighted=False, directed=False, return_predecessors=True)
+
         node_features = torch.Tensor(np.zeros((rank, 1)))
         edge_index = torch.LongTensor(np.array(np.mgrid[:rank, :rank]).reshape((2, -1)))
 
         edge_features_context = torch.Tensor(np.tile(graph.reshape((-1, 1)), (1, 1)))
         edge_features_label = torch.Tensor(graph_dist.reshape((-1, 1)))
-        # print("edge features shape is ",edge_features_label.shape)
-        # print("edge index shape is ", edge_index.shape)
-        # sys.exit()
         noise = torch.Tensor(edge_features_label.reshape((-1, 1)))
 
         data = Data(x=node_features, edge_index=edge_index, edge_attr=edge_features_context, y=edge_features_label, noise=noise)

@@ -103,13 +103,11 @@ def dt_net_1d(width, **kwargs):
 
 
 def dt_net_recall_1d(width, **kwargs):
-    try:
-        if kwargs["graph"] == False:
-            return DTNet1D(BasicBlock, [2], width, recall=True, in_channels=kwargs["in_channels"], graph =kwargs["graph"])
-        else:
-            return DTNet1D(BasicBlock, [2,2], width, recall=True, in_channels=kwargs["in_channels"], graph =kwargs["graph"])
-    except:
-        return DTNet1D(BasicBlock, [2], width, recall=True, in_channels=kwargs["in_channels"], graph =False)
+    if kwargs["graph"] == False:
+        return DTNet1D(BasicBlock, [2], width, recall=True, in_channels=kwargs["in_channels"], graph =kwargs["graph"])
+    else:
+        return DTNet1D(BasicBlock, [2,2], width, recall=True, in_channels=kwargs["in_channels"], graph =kwargs["graph"])
+
 
 def dt_net_gn_1d(width, **kwargs):
     return DTNet1D(BasicBlock, [2], width, recall=False, group_norm=True)

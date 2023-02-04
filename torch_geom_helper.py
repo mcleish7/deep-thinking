@@ -1,4 +1,4 @@
-
+import sys
 if __name__ == '__main__':
     try:
         import torch
@@ -46,7 +46,7 @@ pip3.9 install torch-geometric
 # pip3.9 install pyg-lib -f https://data.pyg.org/whl/torch-$1.10.2+$cpu.html -- doesn't work
 # pip3.9 install torch-spline-conv -f https://data.pyg.org/whl/torch-1.10.2+cpu.html
 # pip3.9 install torch-geometric
-
+sys.exit()
 import torch
 from torch import Tensor
 from torch_geometric.nn import GCNConv
